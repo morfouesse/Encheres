@@ -3,10 +3,12 @@
  */
 package fr.eni.javaee.encheres.bo;
 
-import java.util.Date;
 
 /**
  * @author amorf
+ *
+ * Classe utilisateur qui contient
+ * les différrents éléments d'un utilisateur
  *
  */
 public class Utilisateur {
@@ -20,6 +22,8 @@ public class Utilisateur {
 	private String codePostal;
 	private String ville;
 	private String motDePasse;
-	private Date date;
+	private int credit;
+	private boolean administrateur;
+	private ArticleVendu vente;
 
 }
