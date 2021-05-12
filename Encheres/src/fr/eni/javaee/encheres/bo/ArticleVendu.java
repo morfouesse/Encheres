@@ -58,12 +58,14 @@ public class ArticleVendu {
 		this.dateFinEncheres = dateFinEncheres;
 
 		Date dateActuelle = new Date();
-		// si la date de début d'enchere est supéreur à la date actuelle
-		//alors l'enchere n'est pas en cours
+		// si la date de début d'enchere est inférieur à la date actuelle
+		//alors l'enchere est en cours
 		if(this.dateDebutEncheres.compareTo(dateActuelle) < 0) {
 			System.out.println("l'enchere est en cours ! ");
 			this.setEtatVente(ArticleVendu.ETAT_VENTE_EN_COURS);
 			System.out.println("etat : " + this.getEtatVente());
+			// si la date de fin d'enchere est inférieur à la date actuelle
+			//alors l'enchere est terminé
 			if(this.dateFinEncheres.compareTo(dateActuelle) < 0) {
 
 				System.out.println("l'enchere est terminé ! ");
