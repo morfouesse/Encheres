@@ -1042,12 +1042,10 @@ private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
 				
 				
 				//Faire constructeur avec id et attributs sauf les listes
-				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
-						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
-				
-				this.setUnRetrait = new Retrait(article.getUnUtilisateur.getRue(), article.getUnUtilisateur.getCodePostal(), article.getUnUtilisateur.getVille())
-				
-				lst.add(article);
+//				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
+//						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
+//				
+//				lst.add(article);
 			}
 		}
 		return lst;
