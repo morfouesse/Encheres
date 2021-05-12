@@ -20,8 +20,7 @@ public class Test {
 		    String nomArticle1 = "art1";
 			String description1 = "descrip1";
 			Date dateDebutEncheres1 = OutilDate.getDateFormatDate("01/01/1998");
-
-			Date dateFinEncheres1 = OutilDate.getDateFormatDate("01/01/2022");
+			Date dateFinEncheres1 = OutilDate.getDateFormatDate("01/01/2021");
 			int miseAPrix1 = 5;
 			int prixVente1 = 5;
 			ArticleVendu a1 = new ArticleVendu(nomArticle1, description1, dateDebutEncheres1, dateFinEncheres1,
