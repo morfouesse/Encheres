@@ -17,6 +17,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 			+ "ville='?', mot_de_passe='?', credit='?', administrateur='?' WHERE no_utilisateur = ?";
 	
 
+	
 
 
 	@Override
@@ -122,7 +123,37 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 
 	@Override
 	public void deleteUtilisateur(int noUtilisateur) {
-		//TO DO:do
+		//TO DO: Avant de del l'utilisateur il faut recupérer la liste des no_articles
+				//de ses ventes afin de del toutes les encheres les concernant.
+		// peut on utiliser un selectVentes(noUtilisateur) de ArticleVenduDaoJdbcImpl ?
+		
+		if (noUtilisateur == 0) {
+			System.out.println("TO DO : gestion erreurs");
+		} else {
+			
+			
+			try(Connection cnx = ConnectionProvider.getConnection()) {
+				
+				cnx.setAutoCommit(false);
+
+				try {
+					PreparedStatement pStmt = cnx.prepareStatement("SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?");
+					pStmt.setInt(1, noUtilisateur);
+					
+					ResultSet rs = pStmt.executeQuery();
+		
+					// A CONTINUER
+					cnx.commit(); //on valide
+				} catch (Exception e) {
+					cnx.rollback(); //on annule tout si problème
+					System.out.println("TO DO : gestion erreurs");
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				System.out.println("TO DO : gestion erreurs");
+				e.printStackTrace();
+			}
+		}
 		
 		//List<ArticleVendu> lstArticlesVendu = ArticleVenduDaoJdbcImpl.selectVentes(noUtilisateur);
 		
