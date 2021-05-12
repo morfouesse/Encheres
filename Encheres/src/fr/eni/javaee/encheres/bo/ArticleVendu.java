@@ -7,13 +7,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import fr.eni.javaee.encheres.tools.OutilDate;
+
 /**
  * @author amorf
  *
- * lesArticles venduent d'un user et
+ * lesArticles venduent d'un utilisateur et la gestions
+ * des encheres pour chaque article
  *
  */
 public class ArticleVendu {
+
+	public static final String ETAT_VENTE_CREE = "CREE";
+	public static final String ETAT_VENTE_EN_COURS = "EN_COURS";
+	public static final String ETAT_VENTE_ENCHERES_TERMINEES = "ENCHERES_TERMINEES";
+	//public static final String ETAT_VENTE_RETRAIT = "RETRAIT";
+
 	private int noArticle;
 	private String nomArticle;
 	private String description;
@@ -21,7 +30,7 @@ public class ArticleVendu {
 	private Date dateFinEncheres;
 	private int miseAPrix;
 	private int prixVente;
-	private int etatVente;
+	private String etatVente = ArticleVendu.ETAT_VENTE_CREE;
 
 	private List<Enchere> enchereLst = new ArrayList<>();
 	private Utilisateur unUtilisateur;
@@ -39,41 +48,61 @@ public class ArticleVendu {
 	}
 
 	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
-			int miseAPrix, int prixVente, int etatVente, List<Enchere> enchereLst, Utilisateur unUtilisateur) {
+			int miseAPrix, int prixVente) {
 		this();
 		this.nomArticle = nomArticle;
 		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
 		this.miseAPrix = miseAPrix;
 		this.prixVente = prixVente;
-		this.etatVente = etatVente;
-		this.enchereLst = enchereLst;
+		this.dateDebutEncheres = dateDebutEncheres;
+		this.dateFinEncheres = dateFinEncheres;
+
+		Date dateActuelle = new Date();
+		// si la date de début d'enchere est supéreur à la date actuelle
+		//alors l'enchere n'est pas en cours
+		if(this.dateDebutEncheres.compareTo(dateActuelle) < 0) {
+			System.out.println("l'enchere est en cours ! ");
+			this.setEtatVente(ArticleVendu.ETAT_VENTE_EN_COURS);
+			System.out.println("etat : " + this.getEtatVente());
+			if(this.dateFinEncheres.compareTo(dateActuelle) < 0) {
+
+				System.out.println("l'enchere est terminé ! ");
+				this.setEtatVente(ArticleVendu.ETAT_VENTE_ENCHERES_TERMINEES);
+				System.out.println("etat : " + this.getEtatVente());
+			}
+		}
+	}
+	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int miseAPrix, int prixVente) {
+		this(nomArticle, description, dateDebutEncheres, dateFinEncheres,
+			 miseAPrix, prixVente);
+		this.noArticle = noArticle;
+	}
+
+
+	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int miseAPrix, int prixVente, Utilisateur unUtilisateur,
+			Categorie uneCategorie) {
+		this(noArticle, nomArticle, description, dateDebutEncheres,
+			 dateFinEncheres, miseAPrix, prixVente);
+
 		this.unUtilisateur = unUtilisateur;
+		this.uneCategorie = uneCategorie;
+
+		this.unRetrait = new Retrait(this.unUtilisateur.getRue(),this.unUtilisateur.getCodePostal(),
+				this.unUtilisateur.getVille());
+
 	}
+
+
 	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int miseAPrix, int prixVente, int etatVente) {
-		this(noArticle);
-		this.nomArticle = nomArticle;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
-		this.etatVente = etatVente;
-	}
-	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
-			Date dateFinEncheres, int miseAPrix, int prixVente, int etatVente, List<Enchere> enchereLst) {
-		this(noArticle);
-		this.nomArticle = nomArticle;
-		this.description = description;
-		this.dateDebutEncheres = dateDebutEncheres;
-		this.dateFinEncheres = dateFinEncheres;
-		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
-		this.etatVente = etatVente;
+			Date dateFinEncheres, int miseAPrix, int prixVente, List<Enchere> enchereLst) {
+		this(noArticle, nomArticle, description, dateDebutEncheres,
+				 dateFinEncheres, miseAPrix, prixVente);
 		this.enchereLst = enchereLst;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -85,9 +114,9 @@ public class ArticleVendu {
 		builder.append(", description=");
 		builder.append(description);
 		builder.append(", dateDebutEncheres=");
-		builder.append(dateDebutEncheres);
+		builder.append(OutilDate.getStringFormatDate(this.getDateDebutEncheres()));
 		builder.append(", dateFinEncheres=");
-		builder.append(dateFinEncheres);
+		builder.append(OutilDate.getStringFormatDate(this.getDateFinEncheres()));
 		builder.append(", miseAPrix=");
 		builder.append(miseAPrix);
 		builder.append(", prixVente=");
@@ -99,6 +128,8 @@ public class ArticleVendu {
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 	public void addEnchere(Enchere enchere){
 		this.enchereLst.add(enchere);
@@ -151,10 +182,10 @@ public class ArticleVendu {
 	public void setPrixVente(int prixVente) {
 		this.prixVente = prixVente;
 	}
-	public int getEtatVente() {
+	public String getEtatVente() {
 		return etatVente;
 	}
-	public void setEtatVente(int etatVente) {
+	public void setEtatVente(String etatVente) {
 		this.etatVente = etatVente;
 	}
 	public List<Enchere> getEnchereLst() {
@@ -173,6 +204,10 @@ public class ArticleVendu {
 
 	public Retrait getUnRetrait() {
 		return unRetrait;
+	}
+
+	public void setUnRetrait(Retrait unRetrait) {
+		this.unRetrait = unRetrait;
 	}
 
 
