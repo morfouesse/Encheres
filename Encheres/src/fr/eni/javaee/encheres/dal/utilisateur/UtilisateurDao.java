@@ -4,7 +4,13 @@ import fr.eni.javaee.encheres.bo.Utilisateur;
 
 public interface UtilisateurDao {
 
-	Utilisateur addUtilisateur(Utilisateur utilisateur);
+	Utilisateur insertUtilisateur(Utilisateur utilisateur);
+	
+	Utilisateur updateUtilisateur(int noUtilisateur, Utilisateur utilisateur);
+	
+	void deleteUtilisateur(int noUtilisateur);
+	
+	
 
 	
 }

@@ -5,15 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Categorie;
-import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
@@ -986,8 +983,8 @@ private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
 	
 
 	@Override
-	public ArticleVendu deleteArticleVendu(ArticleVendu articleVendu) {
-		if (articleVendu == null) {
+	public void deleteArticleVendu(int noArticle) {
+		if (noArticle == 0) {
 			System.out.println("TO DO : gestion erreurs");
 		} else {
 			
@@ -998,8 +995,8 @@ private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
 
 				try {
 					PreparedStatement pStmt = cnx.prepareStatement(DELETE);
-					pStmt.setInt(1, articleVendu.getNoArticle());
-					pStmt.setInt(2, articleVendu.getNoArticle());
+					pStmt.setInt(1, noArticle);
+					pStmt.setInt(2, noArticle);
 					
 					int nbLigneInseree = pStmt.executeUpdate();
 					
@@ -1019,7 +1016,6 @@ private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
 				e.printStackTrace();
 			}
 		}
-			return articleVendu;
 	}
 
 	
