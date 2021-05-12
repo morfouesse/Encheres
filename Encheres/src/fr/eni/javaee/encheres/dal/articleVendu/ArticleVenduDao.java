@@ -55,7 +55,7 @@ public interface ArticleVenduDao {
 	
 	ArticleVendu updateArticleVendu(int noArticle, ArticleVendu articleVendu);
 	
-	ArticleVendu delete(ArticleVendu articleVendu);
+	ArticleVendu deleteArticleVendu(ArticleVendu articleVendu);
 	
 	
 }

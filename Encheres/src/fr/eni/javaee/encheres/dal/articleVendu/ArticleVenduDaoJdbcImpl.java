@@ -13,6 +13,7 @@ import java.util.List;
 
 import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Categorie;
+import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
@@ -28,73 +29,118 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_VENTES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?";
 	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'";
 	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?";
-	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND AND nom_article LIKE '%?%' AND no_categorie = ?";
+	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
 	
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
+			
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 	
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
-			+ "AND DATEADD(date_debut_encheres, -GETDATE())> 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) < 0";
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
-			+ "AND DATEADD(date_debut_encheres, -GETDATE())> 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
-			+ "AND DATEADD(date_debut_encheres, -GETDATE())> 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
-			+ "AND DATEADD(date_debut_encheres, -GETDATE())> 0";
+			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
 	
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())< 0";
+			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())< 0";
+			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())< 0";
+			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
-			+ "AND DATEADD(date_fin_encheres, -GETDATE())< 0";
+			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
 	
-	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ?";
-	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'";
-	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND no_categorie = ?";
-	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
+	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ?";
+	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'";
+	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND no_categorie = ?";
+	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
 	
-	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
-	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
-	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND no_categorie = ? AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
-	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ? AND DATEADD(date_fin_encheres, -GETDATE())>= 0";
+	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ?"
+			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
+	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'"
+			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
+	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND no_categorie = ?"
+			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
+	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
 	
-	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere = prix_vente";
-	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere = prix_vente";
-	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND no_categorie = ?";
-	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ? AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere = prix_vente";
+	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ?";
+	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'";
+	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND no_categorie = ?";
+	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
 	
-	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere < prix_vente";
-	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere < prix_vente";
-	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND no_categorie = ?";
-	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS AS av INNER JOIN ENCHERES AS e ON av.no_utilisateur = e.no_utilisateur"
-			+ " WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ? AND DATEADD(date_fin_encheres, -GETDATE())< 0 AND montant_enchere < prix_vente";
+	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ?"
+			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0v";
+	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'"
+			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
+	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND no_categorie = ?"
+			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
+	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
+			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
+			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
 	
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article = '?', description = '?', date_debut_encheres = '?', date_fin_encheres = '?'"
 			+ "prix_initial = ?, prix_vente = ?, no_utilisateur = ?, no_categorie = ? WHERE no_article = ?";
+	
+	
+private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
+		+ "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 	
 	
 	@Override
@@ -619,7 +665,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
-			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR);
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setString(1, extrait);
 			pStmt.setInt(2, categorie.getNoCategorie());
 			pStmt.setInt(3, noUtilisateur);
@@ -938,7 +984,44 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 			return articleVendu;
 	}
 	
-	
+
+	@Override
+	public ArticleVendu deleteArticleVendu(ArticleVendu articleVendu) {
+		if (articleVendu == null) {
+			System.out.println("TO DO : gestion erreurs");
+		} else {
+			
+			
+			try(Connection cnx = ConnectionProvider.getConnection()) {
+				
+				cnx.setAutoCommit(false);
+
+				try {
+					PreparedStatement pStmt = cnx.prepareStatement(DELETE);
+					pStmt.setInt(1, articleVendu.getNoArticle());
+					pStmt.setInt(2, articleVendu.getNoArticle());
+					
+					int nbLigneInseree = pStmt.executeUpdate();
+					
+					if (nbLigneInseree != 1) {
+						System.out.println("TO DO : gestion erreurs");
+						//Voir DaoRepas pour exemple erreurs
+					}
+					
+					cnx.commit(); //on valide
+				} catch (Exception e) {
+					cnx.rollback(); //on annule tout si problème
+					System.out.println("TO DO : gestion erreurs");
+					e.printStackTrace();
+				}
+			} catch (SQLException e) {
+				System.out.println("TO DO : gestion erreurs");
+				e.printStackTrace();
+			}
+		}
+			return articleVendu;
+	}
+
 	
 	private List<ArticleVendu> remplirListeARetourner(ResultSet rs) throws SQLException {
 		List<ArticleVendu> lst = new ArrayList<>();
@@ -957,8 +1040,12 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 				int noUtilisateur = rs.getInt("no_utilisateur");
 				int noCategorie = rs.getInt("no_Categorie");
 				
+				
+				//Faire constructeur avec id et attributs sauf les listes
 				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
-						, prixVente, noUtilisateur, noCategorie);
+						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
+				
+				this.setUnRetrait = new Retrait(article.getUnUtilisateur.getRue(), article.getUnUtilisateur.getCodePostal(), article.getUnUtilisateur.getVille())
 				
 				lst.add(article);
 			}
@@ -966,12 +1053,6 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 		return lst;
 	}
 
-
-	@Override
-	public ArticleVendu delete(ArticleVendu articleVendu) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	
 	
