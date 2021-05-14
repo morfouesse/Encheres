@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
@@ -123,9 +126,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 
 	@Override
 	public void deleteUtilisateur(int noUtilisateur) {
-		//TO DO: Avant de del l'utilisateur il faut recupérer la liste des no_articles
+		//Avant de del l'utilisateur il faut recupérer la liste des no_articles
 				//de ses ventes afin de del toutes les encheres les concernant.
-		// peut on utiliser un selectVentes(noUtilisateur) de ArticleVenduDaoJdbcImpl ?
 		
 		if (noUtilisateur == 0) {
 			System.out.println("TO DO : gestion erreurs");
@@ -137,12 +139,58 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 				cnx.setAutoCommit(false);
 
 				try {
+					
+					//1- Recupération dans la liste lstIdArticles des id_articles de l'utilisateur ayant pour id noUtilisateur
 					PreparedStatement pStmt = cnx.prepareStatement("SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?");
 					pStmt.setInt(1, noUtilisateur);
 					
+					List<Integer> lstIdArticles = new ArrayList<>();
 					ResultSet rs = pStmt.executeQuery();
+					while (rs.next()) {
+						lstIdArticles.add(rs.getInt("id_article"));
+					}
 		
-					// A CONTINUER
+					
+					//2- Effacer de la table ENCHERES les enchères concernant ces articles ou l'utilisateur puis les articles vendus dans la table ARTICLES_VENDUS
+					
+					//Effacer de ENCHERES les encheres sur les articles vendus par l'utilisateur que l'on supprime
+					for (int idArticle : lstIdArticles) {
+						PreparedStatement pStmt2 = cnx.prepareStatement("DELETE FROM ENCHERES WHERE no_article = ?");
+						pStmt2.setInt(1, idArticle);
+						
+						int nbLigneEffacee2 = pStmt2.executeUpdate();
+						if (nbLigneEffacee2 != 1) {
+							System.out.println("TO DO : gestion erreurs");
+							//Voir DaoRepas pour exemple erreurs
+						}
+					}
+					
+					//Effacer de ENCHERES les encheres faites par l'utilisateur que l'on supprime
+					PreparedStatement pStmt3 = cnx.prepareStatement("DELETE FROM ENCHERES WHERE no_utilisateur = ?");
+					pStmt3.setInt(1, noUtilisateur);
+					int nbLigneEffacee3 = pStmt3.executeUpdate();
+					if (nbLigneEffacee3 != 1) {
+						System.out.println("TO DO : gestion erreurs");
+						//Voir DaoRepas pour exemple erreurs
+					}
+					
+					//Effacer de ARTICLES_VENDUS les articles vendus par l'utilisateur que l'on supprime
+					PreparedStatement pStmt4 = cnx.prepareStatement("DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur = ?");
+					int nbLigneEffacee4 = pStmt4.executeUpdate();
+					if (nbLigneEffacee4 != 1) {
+						System.out.println("TO DO : gestion erreurs");
+						//Voir DaoRepas pour exemple erreurs
+					}
+					
+					//Effacer de UTILISATEURS l'utilisateur que l'on supprime
+					PreparedStatement pStmt5 = cnx.prepareStatement("DELETE FROM UTILISATEURS WHERE no_utilisateur = ?");
+					pStmt3.setInt(1, noUtilisateur);
+					int nbLigneEffacee5 = pStmt5.executeUpdate();
+					if (nbLigneEffacee5 != 1) {
+						System.out.println("TO DO : gestion erreurs");
+						//Voir DaoRepas pour exemple erreurs
+					}
+					
 					cnx.commit(); //on valide
 				} catch (Exception e) {
 					cnx.rollback(); //on annule tout si problème
@@ -154,8 +202,6 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 				e.printStackTrace();
 			}
 		}
-		
-		//List<ArticleVendu> lstArticlesVendu = ArticleVenduDaoJdbcImpl.selectVentes(noUtilisateur);
 		
 	}
 
