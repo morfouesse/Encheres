@@ -28,7 +28,9 @@ public class ArticleVendu {
 	private String description;
 	private Date dateDebutEncheres;
 	private Date dateFinEncheres;
+	// prix de l'article de base
 	private int miseAPrix;
+	// prix de l'enchere, surenchere
 	private int prixVente;
 	private String etatVente = ArticleVendu.ETAT_VENTE_CREE;
 
@@ -58,15 +60,15 @@ public class ArticleVendu {
 		this.dateFinEncheres = dateFinEncheres;
 
 		Date dateActuelle = new Date();
-		// si la date de début d'enchere est inférieur à la date actuelle
+		// si la date de début d'enchere est inférieur ou égale à la date actuelle
 		//alors l'enchere est en cours
-		if(this.dateDebutEncheres.compareTo(dateActuelle) < 0) {
+		if(this.dateDebutEncheres.compareTo(dateActuelle) <= 0) {
 			System.out.println("l'enchere est en cours ! ");
 			this.setEtatVente(ArticleVendu.ETAT_VENTE_EN_COURS);
 			System.out.println("etat : " + this.getEtatVente());
-			// si la date de fin d'enchere est inférieur à la date actuelle
+			// si la date de fin d'enchere est inférieur ou égale à la date actuelle
 			//alors l'enchere est terminé
-			if(this.dateFinEncheres.compareTo(dateActuelle) < 0) {
+			if(this.dateFinEncheres.compareTo(dateActuelle) <= 0) {
 
 				System.out.println("l'enchere est terminé ! ");
 				this.setEtatVente(ArticleVendu.ETAT_VENTE_ENCHERES_TERMINEES);
@@ -74,6 +76,16 @@ public class ArticleVendu {
 			}
 		}
 	}
+
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres, Date dateFinEncheres,
+			int miseAPrix, int prixVente, Utilisateur unUtilisateur, Categorie uneCategorie) {
+		this(nomArticle, description, dateDebutEncheres, dateFinEncheres,
+				 miseAPrix, prixVente);
+		this.unUtilisateur = unUtilisateur;
+		this.uneCategorie = uneCategorie;
+	}
+
+
 	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
 			Date dateFinEncheres, int miseAPrix, int prixVente) {
 		this(nomArticle, description, dateDebutEncheres, dateFinEncheres,
