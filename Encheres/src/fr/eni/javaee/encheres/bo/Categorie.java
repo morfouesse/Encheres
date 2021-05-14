@@ -23,13 +23,17 @@ public class Categorie {
 		this();
 		this.noCategorie = noCategorie;
 	}
+
+	public Categorie(String libelle) {
+		this();
+		this.libelle = libelle;
+	}
+
 	public Categorie(String libelle, List<ArticleVendu> articleVenduLst) {
 		this();
 		this.libelle = libelle;
 		this.articleVenduLst = articleVenduLst;
 	}
-
-
 
 	public Categorie(int noCategorie, String libelle) {
 		this(noCategorie);
