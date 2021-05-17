@@ -14,7 +14,7 @@ import fr.eni.javaee.encheres.dal.ConnectionProvider;
 public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 
 	private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur)"
-			+ "VALUES('?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo='?', nom='?', prenom='?', email='?', telephone='?', rue='?', code_postal='?', "
 			+ "ville='?', mot_de_passe='?', credit='?', administrateur='?' WHERE no_utilisateur = ?";
