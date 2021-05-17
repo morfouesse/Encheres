@@ -31,13 +31,8 @@ public class ArticleVenduManager {
 				dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,
 				unUtilisateur, uneCategorie);
 
-<<<<<<< HEAD
-=======
 		System.out.println("ok");
 
-
-
->>>>>>> refs/heads/miseEnCommun
 
 		return DaoFactory.getArticleVenduDao().insertArticleVendu(articleVendu);
 	}
