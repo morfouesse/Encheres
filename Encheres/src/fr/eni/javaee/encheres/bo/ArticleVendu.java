@@ -30,8 +30,8 @@ public class ArticleVendu {
 	private Date dateFinEncheres;
 	// prix de l'article de base
 	private int miseAPrix;
-	// prix de l'enchere, surenchere
-	private int prixVente;
+	// prix de l'enchere, surenchere, par defaut est à 0 pour savoir si il y a eu aucune enchere ou pas
+	private int prixVente = 0;
 	private String etatVente = ArticleVendu.ETAT_VENTE_CREE;
 
 	private List<Enchere> enchereLst = new ArrayList<>();
@@ -55,9 +55,10 @@ public class ArticleVendu {
 		this.nomArticle = nomArticle;
 		this.description = description;
 		this.miseAPrix = miseAPrix;
-		this.prixVente = prixVente;
 		this.dateDebutEncheres = dateDebutEncheres;
 		this.dateFinEncheres = dateFinEncheres;
+		this.prixVente = prixVente;
+
 
 		Date dateActuelle = new Date();
 		// si la date de début d'enchere est inférieur ou égale à la date actuelle
@@ -83,6 +84,11 @@ public class ArticleVendu {
 				 miseAPrix, prixVente);
 		this.unUtilisateur = unUtilisateur;
 		this.uneCategorie = uneCategorie;
+
+		// si une personne à moins de credit que le prix de vente alors il y a une erreur
+		if(this.unUtilisateur.getCredit() < this.prixVente) {
+			System.out.println("erreur,  une personne à moins de credit que le prix de vente");
+		}
 	}
 
 
