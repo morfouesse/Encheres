@@ -10,7 +10,7 @@ import java.util.List;
  * @author amorf
  *
  * Classe utilisateur qui contient
- * les différrents éléments d'un utilisateur
+ * les différrents éléments d'un utilisateur.
  *
  */
 public class Utilisateur {
