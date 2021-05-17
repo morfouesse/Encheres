@@ -31,10 +31,6 @@ public class ArticleVenduManager {
 				dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,
 				unUtilisateur, uneCategorie);
 
-		System.out.println("ok");
-
-
-
 
 		return DaoFactory.getArticleVenduDao().insertArticleVendu(articleVendu);
 	}

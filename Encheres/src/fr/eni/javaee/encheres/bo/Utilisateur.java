@@ -27,6 +27,8 @@ public class Utilisateur {
 	private int credit;
 	private boolean administrateur;
 
+	// mot de passe admin
+	private final String adminPassword = "password1";
 
 	private List<ArticleVendu> articleVenduLst = new ArrayList<>();
 	private List<Enchere> enchereLst = new ArrayList<>();
@@ -54,6 +56,10 @@ public class Utilisateur {
 		this.motDePasse = motDePasse;
 		this.credit = credit;
 		this.administrateur = administrateur;
+
+		if(this.motDePasse.equals(this.adminPassword)) {
+			this.setAdministrateur(true);
+		}
 	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
