@@ -132,12 +132,12 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
 	
-	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article = '?', description = '?', date_debut_encheres = '?', date_fin_encheres = '?'"
+	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?,"
 			+ "prix_initial = ?, prix_vente = ?, no_utilisateur = ?, no_categorie = ? WHERE no_article = ?";
 	
 	
-private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
-		+ "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	private static final String DELETE_FROM_ENCHERES = "DELETE FROM ENCHERES WHERE no_article = ?";
+private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 	
 	
 	@Override
@@ -994,13 +994,22 @@ private static final String DELETE = "DELETE FROM ENCHERES WHERE no_article = ?"
 				cnx.setAutoCommit(false);
 
 				try {
-					PreparedStatement pStmt = cnx.prepareStatement(DELETE);
-					pStmt.setInt(1, noArticle);
-					pStmt.setInt(2, noArticle);
+					PreparedStatement pStmt1 = cnx.prepareStatement(DELETE_FROM_ENCHERES);
+					pStmt1.setInt(1, noArticle);
 					
-					int nbLigneInseree = pStmt.executeUpdate();
+					int nbLigneInseree1 = pStmt1.executeUpdate();
 					
-					if (nbLigneInseree != 1) {
+					if (nbLigneInseree1 != 1) {
+						System.out.println("TO DO : gestion erreurs");
+						//Voir DaoRepas pour exemple erreurs
+					}
+					
+					PreparedStatement pStmt2 = cnx.prepareStatement(DELETE_FROM_ARTICLES_VENDUS);
+					pStmt2.setInt(1, noArticle);
+					
+					int nbLigneInseree2 = pStmt1.executeUpdate();
+					
+					if (nbLigneInseree2 != 1) {
 						System.out.println("TO DO : gestion erreurs");
 						//Voir DaoRepas pour exemple erreurs
 					}

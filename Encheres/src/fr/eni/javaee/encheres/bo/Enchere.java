@@ -35,6 +35,7 @@ public class Enchere {
 		this();
 		this.unUtilisateur = unUtilisateur;
 		this.unArticleVendu = unArticleVendu;
+		this.montantEnchere = montantEnchere;
 
 		if(this.unArticleVendu.getEtatVente().equals(ArticleVendu.ETAT_VENTE_EN_COURS)) {
 			this.dateEnchere = dateEnchere;

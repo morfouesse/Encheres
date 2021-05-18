@@ -16,8 +16,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 	private static final String INSERT = "INSERT INTO UTILISATEURS(pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur)"
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
-	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo='?', nom='?', prenom='?', email='?', telephone='?', rue='?', code_postal='?', "
-			+ "ville='?', mot_de_passe='?', credit='?', administrateur='?' WHERE no_utilisateur = ?";
+	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, "
+			+ "ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur = ?";
 	
 
 	
@@ -159,32 +159,21 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 						pStmt2.setInt(1, idArticle);
 						
 						int nbLigneEffacee2 = pStmt2.executeUpdate();
-						if (nbLigneEffacee2 != 1) {
-							System.out.println("TO DO : gestion erreurs");
-							//Voir DaoRepas pour exemple erreurs
-						}
 					}
 					
 					//Effacer de ENCHERES les encheres faites par l'utilisateur que l'on supprime
 					PreparedStatement pStmt3 = cnx.prepareStatement("DELETE FROM ENCHERES WHERE no_utilisateur = ?");
 					pStmt3.setInt(1, noUtilisateur);
 					int nbLigneEffacee3 = pStmt3.executeUpdate();
-					if (nbLigneEffacee3 != 1) {
-						System.out.println("TO DO : gestion erreurs");
-						//Voir DaoRepas pour exemple erreurs
-					}
 					
 					//Effacer de ARTICLES_VENDUS les articles vendus par l'utilisateur que l'on supprime
 					PreparedStatement pStmt4 = cnx.prepareStatement("DELETE FROM ARTICLES_VENDUS WHERE no_utilisateur = ?");
+					pStmt4.setInt(1, noUtilisateur);
 					int nbLigneEffacee4 = pStmt4.executeUpdate();
-					if (nbLigneEffacee4 != 1) {
-						System.out.println("TO DO : gestion erreurs");
-						//Voir DaoRepas pour exemple erreurs
-					}
 					
 					//Effacer de UTILISATEURS l'utilisateur que l'on supprime
 					PreparedStatement pStmt5 = cnx.prepareStatement("DELETE FROM UTILISATEURS WHERE no_utilisateur = ?");
-					pStmt3.setInt(1, noUtilisateur);
+					pStmt5.setInt(1, noUtilisateur);
 					int nbLigneEffacee5 = pStmt5.executeUpdate();
 					if (nbLigneEffacee5 != 1) {
 						System.out.println("TO DO : gestion erreurs");
