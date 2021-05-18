@@ -196,7 +196,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 		
 	}
 
-
+	//A verifier
 	@Override
 	public int connexionValide(String pseudo, String mdp) {
 		int retour = 0;
