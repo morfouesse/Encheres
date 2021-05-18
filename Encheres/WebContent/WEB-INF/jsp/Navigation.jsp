@@ -10,17 +10,16 @@
 
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
-			
+
 				<li class="nav-item"><a class="nav-link"
-					href="./ServletAccueil">Accueil<span class="sr-only"></span></a></li>
+					href="${pageContext.request.contextPath}/ServletAccueil">Accueil<span class="sr-only"></span></a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="./ServletNouvelleVente">Vendre un article</a></li>
-				<li class="nav-item"><a class="nav-link" 
-					href="./ServletProfil">Mon Profil</a></li>
+					href="${pageContext.request.contextPath}/ServletNouvelleVente">Vendre un article</a></li>
 				<li class="nav-item"><a class="nav-link"
-					href="./ServletConnexion">Connexion</a></li>
-			
+					href="${pageContext.request.contextPath}/ServletProfil">Mon Profil</a></li>
+				<li class="nav-item"><a class="nav-link"
+					href="${pageContext.request.contextPath}/ServletConnexion">Connexion</a></li>
+
 		</ul>
 	</div>
 </nav>
-<br>
