@@ -1,13 +1,18 @@
 package fr.eni.javaee.encheres.ihm.gestionUtilisateur;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.javaee.encheres.bll.BllException;
 import fr.eni.javaee.encheres.bll.utilisateur.UtilisateurManager;
+import fr.eni.javaee.encheres.messages.LectureMessage;
 
 /**
  * Servlet implementation class ServletInscription
@@ -45,15 +50,23 @@ public class ServletInscription extends HttpServlet {
 		String cp = request.getParameter("cp");
 		String ville = request.getParameter("ville");
 		String mdp = request.getParameter("mdp");
-		String vmdp = request.getParameter("vmdp");
 
-		if(vmdp.equals(mdp)) {
-			
-		}
-		
 		UtilisateurManager um = new UtilisateurManager();
-		um.insertUtilisateur(pseudo, nom, prenom, email, telephone,
-				 rue, cp, ville, mdp);
+		// si il n'y pas pas d'erreur on continue vers la connection
+		// sinon on revien sur l'inscription avec un ou pluieurs messages
+		//d'erreur
+		List<String> listeErreurs = new ArrayList<>();
+		try {
+			um.insertUtilisateur(pseudo, nom, prenom, email, telephone,
+					 rue, cp, ville, mdp);
+			this.getServletContext().getRequestDispatcher("/ServletConnexion").forward(request, response);
+		} catch (BllException e) {
+			for (Integer code : e.getListeCodesErreur()) {
+				listeErreurs.add(LectureMessage.getMessageErreur(code));
+			}
+			request.setAttribute("listeErreurs", listeErreurs);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Inscription.jsp").forward(request, response);
+		}
 
 
 	}

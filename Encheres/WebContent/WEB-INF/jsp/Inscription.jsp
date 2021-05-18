@@ -3,7 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<head>
+<meta charset="UTF-8">
+	<title>Inscription | Enchères et en OS</title>
+
+<!-- BOOTSTRAP -->
+	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
 
 
 
@@ -20,12 +27,19 @@
 					<h4 class="card-title mt-2">Inscription</h4>
 				</header>
 				<article class="card-body">
+				<c:choose>
+					<c:when test="${!empty listeErreurs }">
+	  					<c:forEach items="${ listeErreurs }" var="message">
+	    				<p style="color: red;"><c:out value="${ message }" /></p>
+	    				</c:forEach>
+  					</c:when>
+  				</c:choose>
 					<form action="${pageContext.request.contextPath}/ServletInscription" method="post">
 						<div class="form-row">
 							<div class="col form-group">
 								<label>Pseudo </label> <input type="text" class="form-control"
 									placeholder="" name="pseudo" minlength="3" maxlength="30"
-									required="required">
+									value="" required="required">
 								<p>
 									<font size="-1"><i>Entre 3 et 30 caractères</i></font>
 								</p>
@@ -54,7 +68,7 @@
 
 							<div class="col form-group">
 								<label>Email</label> <input type="email" class="form-control"
-									 name="mail" required="required"> <small
+									 name="email" required="required"> <small
 									class="form-text text-muted" maxlength="50">Votre
 									adresse mail ne sera pas partagée.</small>
 							</div>
@@ -86,15 +100,11 @@
 							</div>
 
 							<div class="col form-group">
-								<label>Ville</label> <select id="inputVille"
-									class="form-control" name="ville" required="required">
-									<option>Sélectionnez une ville</option>
-									<option>Nantes</option>
-									<option>Paris</option>
-									<option>Brest</option>
-									<option>Angers</option>
-									<option>Tours</option>
-								</select>
+								<label>Ville</label>
+								<input id="inputVille" type="text" class="form-control"
+								placeholder="" name="ville" maxlength="30" required="required"
+								pattern="[^0-9]{3,30}">
+
 							</div>
 
 						</div>
@@ -104,14 +114,14 @@
 							<div class="col form-group">
 								<label>Mot de Passe </label> <input id="password" class="form-control"
 									 type="password" name="mdp" maxlength="30"
-									 onkeyup='check();'>
+									 onkeyup='check();' required="required">
 							</div>
 
 							<div class="col form-group">
 								<label>Confirmation du mot de passe</label> <input
 									id="verifPassword" class="form-control" type="password" name="vmdp"
 									 maxlength="30"
-									 onkeyup='check();'>
+									 onkeyup='check();' required="required">
 									 <span id='message'></span>
 							</div>
 
@@ -144,19 +154,18 @@
 	var check = function() {
 		  if ( document.getElementById('password').value ==
 		    document.getElementById('verifPassword').value) {
-		    document.getElementById('message').style.color = 'green';
-		    document.getElementById('message').innerHTML = 'matching';
+		    document.getElementById('message').innerHTML = '';
 		    document.getElementById('button').disabled = false;
 		  } else {
 		    document.getElementById('message').style.color = 'red';
-		    document.getElementById('message').innerHTML = 'not matching';
+		    document.getElementById('message').innerHTML = 'le mot de passe ne correspond pas';
 		    document.getElementById('button').disabled = true;
 		  }
 		}
 	</script>
 
 
-<%@include file="Footer.jsp"%>
+<c:import url="Footer.jsp" />
 
 </body>
 </html>
