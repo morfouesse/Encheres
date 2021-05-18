@@ -10,7 +10,7 @@ import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.DaoFactory;
 
 /**
- * @author amorf
+ * @author antoine
  *
  */
 public class UtilisateurManager {
