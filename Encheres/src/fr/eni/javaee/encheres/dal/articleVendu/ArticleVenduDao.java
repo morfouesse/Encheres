@@ -9,34 +9,35 @@ public interface ArticleVenduDao {
 
 	ArticleVendu insertArticleVendu(ArticleVendu articleVendu);
 	
+	List<ArticleVendu> select();
 	List<ArticleVendu> select(String extrait);
-	List<ArticleVendu> select(Categorie categorie);
-	List<ArticleVendu> select(String extrait, Categorie categorie);
+	List<ArticleVendu> select(int categorie);
+	List<ArticleVendu> select(String extrait, int categorie);
 	
 	List<ArticleVendu> selectVentes(int noUtilisateur);
 	List<ArticleVendu> selectVentes(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectVentes(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectVentes(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectVentes(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectVentes(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectVentesEnCours(int noUtilisateur);
 	List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectVentesEnCours(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectVentesEnCours(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur);
 	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectVentesTerminees(int noUtilisateur);
 	List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectVentesTerminees(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectVentesTerminees(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait, int categorie);
 
 	List<ArticleVendu> selectAchats(int noUtilisateur);
 	List<ArticleVendu> selectAchats(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectAchats(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectAchats(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectAchats(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectAchats(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur);
 	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait);

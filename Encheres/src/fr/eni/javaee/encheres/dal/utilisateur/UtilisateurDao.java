@@ -10,6 +10,13 @@ public interface UtilisateurDao {
 	
 	void deleteUtilisateur(int noUtilisateur);
 	
+	/**
+	 * @param pseudo
+	 * @param mdp
+	 * @return 0: utilisateur inexistant - 1: mdp invalide - 2:connexion reussie
+	 */
+	int connexionValide(String pseudo, String mdp);
+	
 	
 
 	

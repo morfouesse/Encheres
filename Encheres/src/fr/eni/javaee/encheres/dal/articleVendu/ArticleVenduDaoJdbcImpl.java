@@ -11,6 +11,7 @@ import java.util.List;
 
 import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Categorie;
+import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
 public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
@@ -19,37 +20,38 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 			+ "date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 	
-	private static final String SELECT_BY_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE '%?%'";
+	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS";
+	private static final String SELECT_BY_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ?";
 	private static final String SELECT_BY_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_categorie = ?";
-	private static final String SELECT_BY_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE '%?%' AND no_categorie = ?";
+	private static final String SELECT_BY_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article LIKE ? AND no_categorie = ?";
 	
 	private static final String SELECT_VENTES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?";
-	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'";
+	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ?";
 	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?";
-	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
+	private static final String SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?";
 	
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 			
-	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
+	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
-	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+	private static final String SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, date_fin_encheres, GETDATE()) <= 0";
 	
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE()) < 0";
-	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
+	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
 	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
-	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+	private static final String SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, date_debut_encheres, GETDATE())< 0";
 	
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ?"
 			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
-	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE '%?%'"
+	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND nom_article LIKE ?"
 			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
 	private static final String SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT * FROM ARTICLES_VENDUS WHERE no_utilisateur = ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, date_fin_encheres, GETDATE())> 0";
@@ -63,7 +65,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'";
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ?";
 	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
@@ -71,7 +73,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?";
 	
 	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
@@ -81,7 +83,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ?"
 			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
 	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
@@ -91,7 +93,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, av.date_debut_encheres, GETDATE()) >= 0 AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) <= 0";
 	
 	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
@@ -101,7 +103,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'";
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ?";
 	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
@@ -109,17 +111,17 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?";
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?";
 	
 	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
 			+ "WHERE e.no_utilisateur = ?"
-			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0v";
+			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
 	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres, "
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%'"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ?"
 			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
 	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
@@ -129,7 +131,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	private static final String SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE = "SELECT av.no_article, av.nom_article, av. description, av.date_debut_encheres,"
 			+ "av.date_fin_encheres, av.prix_initial, av.prix_vente, av.no_utilisateur, av.no_categorie"
 			+ "FROM ARTICLES_VENDUS AS av RIGHT OUTER JOIN ENCHERES AS e ON av.no_article = e.no_article"
-			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE '%?%' AND no_categorie = ?"
+			+ "WHERE e.no_utilisateur = ? AND nom_article LIKE ? AND no_categorie = ?"
 			+ "AND DATEDIFF(dd, av.date_fin_encheres, GETDATE()) > 0";
 	
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article = ?, description = ?, date_debut_encheres = ?, date_fin_encheres = ?,"
@@ -192,6 +194,25 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 
 	
 	@Override
+	public List<ArticleVendu> select() {
+
+		List<ArticleVendu> lst = null;
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			 
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT);
+			
+			ResultSet rs = pStmt.executeQuery();
+			
+			lst = remplirListeARetourner(rs);
+			
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs");
+		}
+		return lst;
+	}
+	
+	@Override
 	public List<ArticleVendu> select(String extrait) {
 
 		List<ArticleVendu> lst = null;
@@ -199,27 +220,28 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_EXTRAIT);
-			pStmt.setString(1, extrait);
+			pStmt.setString(1, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
 			lst = remplirListeARetourner(rs);
 			
 		}catch (SQLException e) {
-			System.out.println("TO DO : gestion erreurs");
+			e.printStackTrace();
+			System.out.println("TO DO : gestion erreurs - erreur select(String extrait)");
 		}
 		return lst;
 	}
 	
 	@Override
-	public List<ArticleVendu> select(Categorie categorie) {
+	public List<ArticleVendu> select(int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
+			pStmt.setInt(1, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -232,15 +254,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 	
 	@Override
-	public List<ArticleVendu> select(String extrait, Categorie categorie) {
+	public List<ArticleVendu> select(String extrait, int categorie) {
 		
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
+			pStmt.setString(1, "'%"+extrait+"%'");
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -281,8 +303,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -295,15 +317,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentes(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectVentes(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -316,16 +338,16 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentes(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectVentes(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -366,8 +388,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -380,15 +402,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesEnCours(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectVentesEnCours(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -401,16 +423,16 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -451,8 +473,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -465,15 +487,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -486,16 +508,16 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -536,8 +558,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -550,15 +572,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesTerminees(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectVentesTerminees(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -571,16 +593,16 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -621,8 +643,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -635,15 +657,15 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchats(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectAchats(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -656,16 +678,16 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchats(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectAchats(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -706,8 +728,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -727,8 +749,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -748,9 +770,9 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -791,8 +813,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -812,8 +834,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -833,9 +855,9 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -876,8 +898,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -897,8 +919,8 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_CATEGORIE);
-			pStmt.setInt(1, categorie.getNoCategorie());
-			pStmt.setInt(2, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setInt(2, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -918,9 +940,9 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, extrait);
-			pStmt.setInt(2, categorie.getNoCategorie());
-			pStmt.setInt(3, noUtilisateur);
+			pStmt.setInt(1, noUtilisateur);
+			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -1046,11 +1068,10 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 				int noCategorie = rs.getInt("no_Categorie");
 				
 				
-				//Faire constructeur avec id et attributs sauf les listes
-//				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
-//						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
-//				
-//				lst.add(article);
+				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
+						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
+				
+				lst.add(article);
 			}
 		}
 		return lst;

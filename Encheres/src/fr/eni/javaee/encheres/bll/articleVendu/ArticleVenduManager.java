@@ -3,6 +3,7 @@
  */
 package fr.eni.javaee.encheres.bll.articleVendu;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,86 @@ public class ArticleVenduManager {
 
 		return DaoFactory.getArticleVenduDao().insertArticleVendu(articleVendu);
 	}
+	
+	
+	public List<ArticleVendu> select(String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if ((extrait == null) || (extrait.isBlank())&&(categorie == 0)) {
+			System.out.println("cas1");
+			retour = DaoFactory.getArticleVenduDao().select();
+		} else if (categorie == 0) {
+			System.out.println("cas2");
+			retour = DaoFactory.getArticleVenduDao().select(extrait);
+		} else {
+			System.out.println("cas3");
+			retour = DaoFactory.getArticleVenduDao().select(categorie);
+		}
+		
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectVentes(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectVentes(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectVentes(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectVentes(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectVentes(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectVentesEnCours(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectVentesNonDebutees(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesNonDebutees(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesNonDebutees(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectVentesNonDebutees(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectVentesNonDebutees(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectVentesTerminees(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesTerminees(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectVentesTerminees(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectVentesTerminees(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectVentesTerminees(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	
 
 	private boolean verificationArticle(String nomArticle, String description, Date dateDebutEncheres,
 			Date dateFinEncheres, int miseAPrix, int prixVente, Utilisateur unUtilisateur, Categorie uneCategorie) {
@@ -43,21 +124,21 @@ public class ArticleVenduManager {
 		boolean verif = true;
 		Date dateActuelle = new Date();
 
-		if(nomArticle.equals(null)) {
+		if(nomArticle == null) {
 			System.out.println("Erreur, nomArticle est null");
 			verif = false;
 		}else if(nomArticle.isBlank()) {
 			System.out.println("Erreur, nomArticle est vide, pas de charactere");
 			verif = false;
 		}
-		if(description.equals(null)) {
+		if(description == null) {
 			System.out.println("Erreur, description est null");
 			verif = false;
 		}else if(description.isBlank()) {
 			System.out.println("Erreur, description est vide, pas de charactere");
 			verif = false;
 		}
-		if(dateDebutEncheres.equals(null)) {
+		if(dateDebutEncheres == null) {
 			System.out.println("Erreur, dateDebutEncheres est null");
 			verif = false;
 		// si la dateDEbutEnchere est inférieur à la dateActuelle
@@ -66,7 +147,7 @@ public class ArticleVenduManager {
 			System.out.println("Erreur, dateDebutEnchere est inférieur à la date actuelle ");
 			verif = false;
 		}
-		if(dateFinEncheres.equals(null)) {
+		if(dateFinEncheres == null) {
 			System.out.println("Erreur, dateFinEncheres est null");
 			verif = false;
 		// si la dateFinEnchere est supérieur à la dateDEbutEnchere
@@ -83,11 +164,11 @@ public class ArticleVenduManager {
 			System.out.println("Erreur, prixVente est infé à 0 ");
 			verif = false;
 		}
-		if(unUtilisateur.equals(null)) {
+		if(unUtilisateur == null) {
 			System.out.println("Erreur, il y a pas d'utilisateur");
 			verif = false;
 		}
-		if(uneCategorie.equals(null)) {
+		if(uneCategorie == null) {
 			System.out.println("Erreur, il y a pas de categorie");
 			verif = false;
 		}
