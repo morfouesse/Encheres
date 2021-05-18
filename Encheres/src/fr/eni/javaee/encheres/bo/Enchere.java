@@ -36,7 +36,7 @@ public class Enchere {
 		this.unUtilisateur = unUtilisateur;
 		this.unArticleVendu = unArticleVendu;
 		this.montantEnchere = montantEnchere;
-
+		//changed by martin
 		if(this.unArticleVendu.getEtatVente().equals(ArticleVendu.ETAT_VENTE_EN_COURS)) {
 			this.dateEnchere = dateEnchere;
 		}else {
