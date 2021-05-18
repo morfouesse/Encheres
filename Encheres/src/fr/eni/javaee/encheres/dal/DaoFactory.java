@@ -2,6 +2,8 @@ package fr.eni.javaee.encheres.dal;
 
 import fr.eni.javaee.encheres.dal.articleVendu.ArticleVenduDao;
 import fr.eni.javaee.encheres.dal.articleVendu.ArticleVenduDaoJdbcImpl;
+import fr.eni.javaee.encheres.dal.enchere.EnchereDao;
+import fr.eni.javaee.encheres.dal.enchere.EnchereDaoJdbcImpl;
 import fr.eni.javaee.encheres.dal.utilisateur.UtilisateurDao;
 import fr.eni.javaee.encheres.dal.utilisateur.UtilisateurDaoJdbcImpl;
 
@@ -32,6 +34,10 @@ public class DaoFactory {
 	
 	public static UtilisateurDao getUtilisateurDao() {
 		return new UtilisateurDaoJdbcImpl();
+	}
+	
+	public static EnchereDao getEnchereDao() {
+		return new EnchereDaoJdbcImpl();
 	}
 	
 }
