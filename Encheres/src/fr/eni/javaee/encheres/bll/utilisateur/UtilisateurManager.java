@@ -14,13 +14,15 @@ import fr.eni.javaee.encheres.dal.DaoFactory;
 public class UtilisateurManager {
 
 	public Utilisateur insertUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, int credit) {
+			String rue, String codePostal, String ville, String motDePasse) {
 
 		verificationUtilisateur(pseudo, nom, prenom, email, telephone,
-		 rue, codePostal, ville, motDePasse, credit);
+		 rue, codePostal, ville, motDePasse);
 
 
 		boolean administrateur = false;
+		// nb de credit pour tous les utilisateur apres inscription
+		int credit = 100;
 		Utilisateur utilisateur = new Utilisateur(pseudo, nom, prenom, email, telephone,
 		 rue, codePostal, ville, motDePasse, credit, administrateur);
 
@@ -28,7 +30,7 @@ public class UtilisateurManager {
 	}
 
 	private boolean verificationUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, int credit) {
+			String rue, String codePostal, String ville, String motDePasse) {
 
 		boolean verif = true;
 
@@ -88,11 +90,6 @@ public class UtilisateurManager {
 			System.out.println("Erreur, motDePasse est vide, pas de charactere");
 			verif = false;
 		}
-		if(credit < 0 ) {
-			System.out.println("Erreur, credit est infé à 0 ");
-			verif = false;
-		}
-
 		return verif;
 	}
 }

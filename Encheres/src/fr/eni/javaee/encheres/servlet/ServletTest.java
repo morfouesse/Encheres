@@ -56,8 +56,10 @@ public class ServletTest extends HttpServlet {
 		String motDePasse = "motDePasse";
 		int credit = 50;
 
-		Utilisateur unUtilisateur = new UtilisateurManager().insertUtilisateur(
-				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit);
+		UtilisateurManager um = new UtilisateurManager();
+
+		um.insertUtilisateur(
+				pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse);
 
 
 		/*String nomArticle = "nom1";
