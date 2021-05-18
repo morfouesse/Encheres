@@ -7,7 +7,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Enchères et en OS</title>
+<title>Connexion | Enchères et en OS</title>
 
 <!-- BOOTSTRAP -->
 
@@ -44,12 +44,12 @@
 
 				<article class="card-body">
 
-					<form action="${pageContext.request.contextPath}/Index.jsp" method="post">
+					<form action="${pageContext.request.contextPath}/ServletConnexion" method="post">
 
 						<div class="form-row">
 							<div class="col form-group">
 								<label>Identifiant </label> <input type="text"
-									class="form-control" placeholder="Pseudo" name="Pseudo"
+									class="form-control" placeholder="Pseudo" name="pseudo"
 									required="required">
 							</div>
 
@@ -58,21 +58,12 @@
 						<div class="form-row">
 							<div class="col form-group">
 								<label>Mot de Passe </label> <input class="form-control"
-									type="password" placeholder="Mot de passe" name="MDP"
+									type="password" placeholder="Mot de passe" name="mdp"
 									required="required">
 							</div>
 
 						</div>
-
-						<div class="form-check">
-						<div class="col form-group">
-							<input type="checkbox" class="form-check-input"
-								id="Checkbox"> <label class="form-check-label"
-								for="Checkbox"> Se souvenir de moi </label><br>
-							<br><a href="./ServletOubliMDP" id="MDPOubli">Mot de passe oublié ?</a>
-							</div>
-						</div>
-
+						<br>
 						<div class="form-group">
 				<button type="submit" class="btn btn-primary btn-block"
 					name="Connexion">Connexion</button>
