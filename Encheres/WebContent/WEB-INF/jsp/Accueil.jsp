@@ -42,23 +42,23 @@
 
 				<!-- FORMULAIRE DE RECHERCHE -->
 
-			<form action="./ServletRechercheVente" method="post" style="texte-align: left">
+			<form action="./ServletRechercheVente" method="get" style="texte-align: left">
 				<input type="search" style="width: 250px; display: block; text-align: left; margin: auto;"
-						name="Recherche" placeholder="Le nom de l'article contient">
+						name="extrait" placeholder="Le nom de l'article contient">
 
 					<br>
 					<br>
 
 					<div class="col form-group" style="text-align: center;">
 						<label>Catégories </label>
-						 <select id="Catégories"
+						 <select id="catégorie"
 							style="width: 200px; display: block; margin: auto;"
-							class="form-control" name="Categories">
-							<option value="Toutes" selected>Toutes</option>
-							<option value="Informatique">Informatique</option>
-							<option value ="Ameublement">Ameublement</option>
-							<option value="Vêtements">Vêtements</option>
-							<option value="Sport et Loisirs">Sport &amp; Loisirs</option>
+							class="form-control" name="categorie">
+							<option value="0" selected>Toutes</option>
+							<option value="1">Informatique</option>
+							<option value ="2">Ameublement</option>
+							<option value="3">Vêtements</option>
+							<option value="4">Sports &amp; Loisirs</option>
 						</select>
 					</div>
 
@@ -69,44 +69,44 @@
 
 						<div class="col">
 							<div>
-  								<input type="radio" id="Achats" name="Achats" value="Achats" checked>
+  								<input type="radio" id="achats" name="achats" value="achatsChecked">
   								<label for="">Achats</label>
 							</div>
 
 							<div>
-								<input type="checkbox" id="categorieVente" name="mesVentes">
+								<input type="checkbox" id="encheresOuvertes" name="encheresOuvertes" value="checked">
 								<label for="">Enchères ouvertes</label>
 							</div>
 
 							<div>
-								<input type="checkbox" id="categorieEnchres" name="mesEnchere">
+								<input type="checkbox" id="mesEnchere" name="mesEnchere" value="checked">
 								<label for="">Mes enchères</label>
 							</div>
 
 							<div>
-								<input type="checkbox" id="categorieAcquisitions" name="mesAcquisitions">
+								<input type="checkbox" id="mesEncheresRemportees" name="mesEncheresRemportees" value="checked">
 								<label for="">Mes enchères remportées</label>
 							</div>
 						</div>
 
 						<div class="col">
 						<div>
-  							<input type="radio" id="Achats" name="Achats" value="Achats">
-  							<label for="">Ventes</label>
+  							<input type="radio" id="mesVentes" name="mesVentes" value="mesVentesChecked">
+  							<label for="">Mes ventes</label>
 						</div>
 
 							<div>
-								<input type="checkbox" id="categorieVente" name="mesVentes">
+								<input type="checkbox" id="mesVentesEnCours" name="mesVentesEnCours">
 								<label for="">Mes ventes en cours</label>
 							</div>
 
 							<div>
-								<input type="checkbox" id="categorieEnchres" name="mesEnchere">
+								<input type="checkbox" id="ventesNonDébutées" name="ventesNonDébutées">
 								<label for="">Ventes non débutées</label>
 							</div>
 
 							<div>
-								<input type="checkbox" id="categorieAcquisitions" name="mesAcquisitions">
+								<input type="checkbox" id="ventesTerminees" name="ventesTerminees">
 								<label for="">Ventes terminées</label>
 							</div>
 						</div>
@@ -119,7 +119,7 @@
 				<div class="form-group">
 						<input class="btn btn-primary btn-block"
 						style="width: 200px; display: block; margin: auto; text-align: center;"
-						type="submit" value="Rechercher">
+						type="submit" value="rechercher">
 				</div>
 
 			</form>

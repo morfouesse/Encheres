@@ -19,7 +19,9 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 	private static final String UPDATE = "UPDATE UTILISATEURS SET pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, "
 			+ "ville=?, mot_de_passe=?, credit=?, administrateur=? WHERE no_utilisateur = ?";
 	
-
+	private static final String SELECT_VALID_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
+	
+	private static final String SELECT_VALID_MDP = "SELECT * FROM UTLISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
 	
 
 
@@ -192,6 +194,47 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 			}
 		}
 		
+	}
+
+
+	@Override
+	public int connexionValide(String pseudo, String mdp) {
+		int retour = 0;
+				
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			 
+			PreparedStatement pStmt1 = cnx.prepareStatement(SELECT_VALID_UTILISATEUR);
+			pStmt1.setString(1, pseudo);
+			PreparedStatement pStmt2 = cnx.prepareStatement(SELECT_VALID_MDP);
+			pStmt2.setString(1, pseudo);
+			pStmt2.setString(1, mdp);
+			
+			ResultSet rs1 = pStmt1.executeQuery();
+			ResultSet rs2 = pStmt2.executeQuery();
+			
+			int nbLignes1 = 0;
+			int nbLignes2 = 0;
+			
+			while (rs1.next()) {
+				nbLignes1++;
+			}
+			
+			while (rs2.next()) {
+				nbLignes2++;
+			}
+			
+			if (nbLignes1 >= 1) {
+				retour++;
+				if (nbLignes2 >= 1) {
+					retour++;
+				}
+			}
+			
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs - erreur connexionValide");
+		}
+		
+		return retour;
 	}
 
 

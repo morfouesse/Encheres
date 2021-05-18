@@ -64,16 +64,16 @@ public class ArticleVendu {
 		// si la date de début d'enchere est inférieur ou égale à la date actuelle
 		//alors l'enchere est en cours
 		if(this.dateDebutEncheres.compareTo(dateActuelle) <= 0) {
-			System.out.println("l'enchere est en cours ! ");
+			//System.out.println("l'enchere est en cours ! ");
 			this.setEtatVente(ArticleVendu.ETAT_VENTE_EN_COURS);
-			System.out.println("etat : " + this.getEtatVente());
+			//System.out.println("etat : " + this.getEtatVente());
 			// si la date de fin d'enchere est inférieur ou égale à la date actuelle
 			//alors l'enchere est terminé
 			if(this.dateFinEncheres.compareTo(dateActuelle) <= 0) {
 
-				System.out.println("l'enchere est terminé ! ");
+				//System.out.println("l'enchere est terminé ! ");
 				this.setEtatVente(ArticleVendu.ETAT_VENTE_ENCHERES_TERMINEES);
-				System.out.println("etat : " + this.getEtatVente());
+				//System.out.println("etat : " + this.getEtatVente());
 			}
 		}
 	}
