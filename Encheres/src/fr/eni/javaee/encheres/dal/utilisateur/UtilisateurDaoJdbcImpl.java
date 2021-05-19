@@ -263,8 +263,5 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 		return noUtilisateur;
 	}
 
-
-	
-	
 	
 }
