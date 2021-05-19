@@ -58,11 +58,10 @@ public class UtilisateurManager {
 		}
 	}
 
-	/*public int getIdUtilisateur(String pseudo, String motDePasse){
+	public int getIdUtilisateur(String pseudo, String motDePasse){
 
-
-		return DaoFactory.getUtilisateurDao().connexionValide(pseudo, motDePasse);
-	}*/
+		return DaoFactory.getUtilisateurDao().selectNoUtilisateur(pseudo, motDePasse);
+	}
 
  	private void verificationUtilisateur(String pseudo, String motDePasse, BllException be) {
  		if(pseudo == null) {

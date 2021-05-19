@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.javaee.encheres.bll.BllException;
 import fr.eni.javaee.encheres.bll.utilisateur.UtilisateurManager;
@@ -41,10 +43,14 @@ public class ServletConnexion extends HttpServlet {
 		UtilisateurManager um = new UtilisateurManager();
 		List<String> listeErreurs = new ArrayList<>();
 		try {
+			//on fait la connection
 			um.Connection(pseudo, mdp);
+
+			// l'utilisateur courrant
+			sessionUtilisateur(pseudo, mdp, um, request);
+
 			this.getServletContext().getRequestDispatcher("/ServletAccueil").forward(request, response);
 
-		//	um.getIdUtilisateur(pseudo, mdp);
 			} catch (BllException e) {
 			for (Integer code : e.getListeCodesErreur()) {
 				listeErreurs.add(LectureMessage.getMessageErreur(code));
@@ -52,6 +58,18 @@ public class ServletConnexion extends HttpServlet {
 			request.setAttribute("listeErreurs", listeErreurs);
 			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response);
 		}
+	}
+
+
+	// l'utilisateur courrant
+	private void sessionUtilisateur(String pseudo, String mdp, UtilisateurManager um, HttpServletRequest request) {
+
+		/* Récupération de la session depuis la requête */
+        HttpSession session = request.getSession();
+
+		int idUtilisateurAccesPendantSession = um.getIdUtilisateur(pseudo, mdp);
+		session.setAttribute("idUtilisateur", idUtilisateurAccesPendantSession);
+
 	}
 
 }
