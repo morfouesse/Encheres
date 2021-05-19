@@ -15,6 +15,7 @@ import fr.eni.javaee.encheres.dal.DaoFactory;
  */
 public class UtilisateurManager {
 
+
 	public Utilisateur insertUtilisateur(String pseudo, String nom, String prenom, String email, String telephone,
 			String rue, String codePostal, String ville, String motDePasse) throws BllException{
 
@@ -37,22 +38,31 @@ public class UtilisateurManager {
 	}
 
 
-	public boolean Connection(String pseudo, String motDePasse) throws BllException{
+	public void Connection(String pseudo, String motDePasse) throws BllException{
 
-		boolean verif = false;
+
 		BllException be = new BllException();
 		verificationUtilisateur(pseudo, motDePasse, be);
+
+
+		if(DaoFactory.getUtilisateurDao().connexionValide(pseudo, motDePasse) == 0) {
+			be.ajouterErreur(CodesErreuresBll.PSEUDO_CONNEXION_NEXISTE_PAS_ERREUR);
+		}
+		else if(DaoFactory.getUtilisateurDao().connexionValide(pseudo, motDePasse) == 1) {
+			be.ajouterErreur(CodesErreuresBll.MOTDEPASSE_CONNEXION_NEXISTE_PAS_ERREUR);
+		}
+
 
 		if(be.hasErreurs()) {
 			throw be;
 		}
-
-	/*	if(DaoFactory.getUtilisateurDao().ConnexionValide(pseudo, motDePasse)) {
-			 verif = true;
-		}*/
-
-		return verif;
 	}
+
+	/*public int getIdUtilisateur(String pseudo, String motDePasse){
+
+
+		return DaoFactory.getUtilisateurDao().connexionValide(pseudo, motDePasse);
+	}*/
 
  	private void verificationUtilisateur(String pseudo, String motDePasse, BllException be) {
  		if(pseudo == null) {
