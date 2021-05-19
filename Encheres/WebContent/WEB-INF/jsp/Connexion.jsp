@@ -43,7 +43,13 @@
 				<!-- FORMULAIRE DE CONNEXION -->
 
 				<article class="card-body">
-
+					<c:choose>
+						<c:when test="${!empty listeErreurs }">
+		  					<c:forEach items="${ listeErreurs }" var="message">
+		    				<p style="color: red;"><c:out value="${ message }" /></p>
+		    				</c:forEach>
+	  					</c:when>
+  					</c:choose>
 					<form action="${pageContext.request.contextPath}/ServletConnexion" method="post">
 
 						<div class="form-row">
