@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
@@ -21,8 +22,9 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 	
 	private static final String SELECT_VALID_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
 	
-	private static final String SELECT_VALID_MDP = "SELECT * FROM UTLISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
+	private static final String SELECT_VALID_MDP = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
 	
+	private static final String SELECT_NO_UTILISATEUR = "SELECT no_utilisateur FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
 
 
 	@Override
@@ -196,7 +198,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 		
 	}
 
-	//A verifier
+	
 	@Override
 	public int connexionValide(String pseudo, String mdp) {
 		int retour = 0;
@@ -207,7 +209,7 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 			pStmt1.setString(1, pseudo);
 			PreparedStatement pStmt2 = cnx.prepareStatement(SELECT_VALID_MDP);
 			pStmt2.setString(1, pseudo);
-			pStmt2.setString(1, mdp);
+			pStmt2.setString(2, mdp);
 			
 			ResultSet rs1 = pStmt1.executeQuery();
 			ResultSet rs2 = pStmt2.executeQuery();
@@ -232,9 +234,33 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 			
 		}catch (SQLException e) {
 			System.out.println("TO DO : gestion erreurs - erreur connexionValide");
+			e.printStackTrace();
 		}
 		
 		return retour;
+	}
+
+
+	@Override
+	public int selectNoUtilisateur(String pseudo, String mdp) {
+		int noUtilisateur = 0;
+		
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			 
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_NO_UTILISATEUR);
+			pStmt.setString(1, pseudo);
+			pStmt.setString(2, mdp);
+			
+			ResultSet rs = pStmt.executeQuery();
+			
+			while(rs.next()) {
+				noUtilisateur = rs.getInt(1);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs - erreur selectNoUtilisateur");
+		}
+		return noUtilisateur;
 	}
 
 

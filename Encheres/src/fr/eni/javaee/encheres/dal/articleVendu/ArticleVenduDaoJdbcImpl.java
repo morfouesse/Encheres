@@ -220,7 +220,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_EXTRAIT);
-			pStmt.setString(1, "'%"+extrait+"%'");
+			pStmt.setString(1, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -261,7 +261,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_BY_EXTRAIT_CATEGORIE);
-			pStmt.setString(1, "'%"+extrait+"%'");
+			pStmt.setString(1, "%"+extrait+"%");
 			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -304,7 +304,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -346,7 +346,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -389,7 +389,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -431,7 +431,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_EN_COURS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -474,7 +474,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -516,7 +516,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_NON_DEBUTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -559,7 +559,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -601,7 +601,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_VENTES_TERMINEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -644,7 +644,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -686,7 +686,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -729,7 +729,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -771,7 +771,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -814,7 +814,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -856,7 +856,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();
@@ -899,7 +899,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -941,7 +941,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setString(2, "'%"+extrait+"%'");
+			pStmt.setString(2, "%"+extrait+"%");
 			pStmt.setInt(3, categorie.getNoCategorie());
 			
 			ResultSet rs = pStmt.executeQuery();

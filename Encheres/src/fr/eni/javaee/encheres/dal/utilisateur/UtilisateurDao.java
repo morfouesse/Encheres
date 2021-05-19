@@ -17,7 +17,11 @@ public interface UtilisateurDao {
 	 */
 	int connexionValide(String pseudo, String mdp);
 	
-	
-
+	/**
+	 * @param pseudo
+	 * @param mdp
+	 * @return le noUtilisateur correspondant à la pair pseudo/mdp fournie en paramètres
+	 */
+	int selectNoUtilisateur(String pseudo, String mdp);
 	
 }
