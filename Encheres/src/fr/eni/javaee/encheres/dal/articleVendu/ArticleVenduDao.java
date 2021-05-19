@@ -41,18 +41,18 @@ public interface ArticleVenduDao {
 	
 	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur);
 	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur);
 	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait, int categorie);
 	
 	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur);
 	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait);
-	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, Categorie categorie);
-	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait, Categorie categorie);
+	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, int categorie);
+	List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait, int categorie);
 	
 	ArticleVendu updateArticleVendu(int noArticle, ArticleVendu articleVendu);
 	
