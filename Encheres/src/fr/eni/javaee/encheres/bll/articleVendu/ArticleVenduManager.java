@@ -116,6 +116,65 @@ public class ArticleVenduManager {
 		return retour;
 	}
 	
+	public List<ArticleVendu> selectAchats(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectAchats(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectAchats(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectAchats(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectAchats(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsEncheresOuvertes(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsEncheresOuvertes(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectAchatsEncheresOuvertes(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsEncheresOuvertes(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheres(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheres(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheres(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheres(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
+	
+	public List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait, int categorie){
+		List<ArticleVendu> retour = new ArrayList<>();
+		
+		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheresRemportees(noUtilisateur);
+		} else if (categorie == 0) {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheresRemportees(noUtilisateur, extrait);
+		} else if ((extrait == null) || (extrait.isBlank())){
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheresRemportees(noUtilisateur, categorie);
+		} else {
+			retour = DaoFactory.getArticleVenduDao().selectAchatsMesEncheresRemportees(noUtilisateur, extrait, categorie);
+		}
+		return retour;
+	}
 	
 
 	private boolean verificationArticle(String nomArticle, String description, Date dateDebutEncheres,

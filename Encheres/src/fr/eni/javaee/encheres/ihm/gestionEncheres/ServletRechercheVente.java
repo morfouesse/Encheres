@@ -10,6 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
 import fr.eni.javaee.encheres.bll.articleVendu.ArticleVenduManager;
 import fr.eni.javaee.encheres.bo.ArticleVendu;
@@ -34,7 +36,10 @@ public class ServletRechercheVente extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		if(request.getServletPath().equals("/ServletRechercheVente")) {
+
+//		HttpSession session = request.getSession();
+//		int noUtilisateur = (int)session.getAttribute("idUtilisateur");
+		
 		int noUtilisateur = 1;
 		
 		String extrait = request.getParameter("extrait");
@@ -45,7 +50,7 @@ public class ServletRechercheVente extends HttpServlet {
 		
 		ArticleVenduManager manager = new ArticleVenduManager();
 		
-		if ((request.getParameter("achats") == null)&&(request.getParameter("ventes") == null)) {
+		if (request.getParameter("choixAchatsVentes") == null) {
 		//Affichage de tous les articles de la bdd (radio buttons "achats" et "ventes" pas sélectionnés)
 			System.out.println("you are here");
 			System.out.println(extrait);
@@ -63,27 +68,26 @@ public class ServletRechercheVente extends HttpServlet {
 			//Acune checkbox sélectionnée
 				listeRetour = manager.selectVentes(noUtilisateur, extrait, categorie);
 			}
+		} else if ("achatsCheked".equals(request.getParameter("achats"))) {
+		//Recherche dans "Achats" uniquement ; selon quelle chekbox est sélectionnée
+			if ("checked".equals(request.getParameter("encheresOuvertes"))) {
+				listeRetour = manager.selectAchatsEncheresOuvertes(noUtilisateur, extrait, categorie);
+			} else if ("checked".equals(request.getParameter("mesEncheres"))) {
+				listeRetour = manager.selectAchatsMesEncheres(noUtilisateur, extrait, categorie);
+			}else if ("checked".equals(request.getParameter("mesEncheresRemportees"))) {
+				listeRetour = manager.selectAchatsMesEncheresRemportees(noUtilisateur, extrait, categorie);
+			} else {
+			//Acune checkbox sélectionnée
+				listeRetour = manager.selectAchats(noUtilisateur, extrait, categorie);
+			}
 		}
-//		} else if ("achatsCheked".equals(request.getParameter("achats"))) {
-//		//Recherche dans "Achats" uniquement ; selon quelle chekbox est sélectionnée
-//			if ("checked".equals(request.getParameter("encheresOuvertes"))) {
-//				listeRetour = manager.selectAchatsEncheresOuvertes(noUtilisateur, extrait, categorie);
-//			} else if ("checked".equals(request.getParameter("mesEncheres"))) {
-//				listeRetour = manager.selectAchatsMesEncheres(noUtilisateur, extrait, categorie);
-//			}else if ("checked".equals(request.getParameter("mesEncheresRemportees"))) {
-//				listeRetour = manager.selectAchatsMesEncheresRemportees(noUtilisateur, extrait, categorie);
-//			} else {
-//			//Acune checkbox sélectionnée
-//				listeRetour = manager.selectAchats(noUtilisateur, extrait, categorie);
-//			}
-//		}
 		
 		System.out.println(listeRetour);
 		request.setAttribute("listeRetour", listeRetour);
 		
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 		rd.forward(request, response);
-//		}
+
 	}
 
 	/**

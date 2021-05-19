@@ -742,7 +742,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -750,7 +750,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setInt(2, categorie.getNoCategorie());
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -763,7 +763,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsEncheresOuvertes(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -772,7 +772,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_ENCHERES_OUVERTES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
 			pStmt.setString(2, "%"+extrait+"%");
-			pStmt.setInt(3, categorie.getNoCategorie());
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -827,7 +827,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -835,7 +835,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setInt(2, categorie.getNoCategorie());
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -848,7 +848,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsMesEncheres(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -857,7 +857,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
 			pStmt.setString(2, "%"+extrait+"%");
-			pStmt.setInt(3, categorie.getNoCategorie());
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -912,7 +912,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -920,7 +920,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
-			pStmt.setInt(2, categorie.getNoCategorie());
+			pStmt.setInt(2, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			
@@ -933,7 +933,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 	@Override
-	public List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait, Categorie categorie) {
+	public List<ArticleVendu> selectAchatsMesEncheresRemportees(int noUtilisateur, String extrait, int categorie) {
 
 		List<ArticleVendu> lst = null;
 		
@@ -942,7 +942,7 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ACHATS_MES_ENCHERES_REMPORTEES_BY_NO_UTILISATEUR_EXTRAIT_CATEGORIE);
 			pStmt.setInt(1, noUtilisateur);
 			pStmt.setString(2, "%"+extrait+"%");
-			pStmt.setInt(3, categorie.getNoCategorie());
+			pStmt.setInt(3, categorie);
 			
 			ResultSet rs = pStmt.executeQuery();
 			

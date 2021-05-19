@@ -9,72 +9,41 @@
 
 <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+<link href="css/listeEncheresStyleSheet.css" rel="stylesheet">
+
 <title>Liste Enchères</title>
 </head>
 <body>
 
-<div class="row justify-content-center">
-	<div class="row col-md-12">
-		
-		<h2>Enchères : </h2>
-		
-            <div class="container">
-    <div class="row">
-    	<c:choose>
-	        <c:when test="${!empty listeRetour}">
-	        	<ul class="list-group col-12">
-	        		<c:forEach var="articleVendu" items="${listeRetour}">
-					        <div class="col-md-4">
-					        
-					            <div class="carbon-wrap">
-					                <img src="./lib/MarteauEncheres.jpg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
-					                
-					                <div class="carbon-text">
-					                  <p>Nom : <c:out value="${articleVendu.nomArticle}" /></p>
-					                  <p>Prix : ?</p>
-					                  <p>Fin de l'enchère : JJ/MM/AAAA
-					                  <br>
-					                  <p>Vendeur :</p>
+	    <div class="containerInternalGrid" >
+	    	<c:choose>
+		        <c:when test="${!empty listeRetour}">
+		        		<c:forEach var="articleVendu" items="${listeRetour}">
+							<div class="col colArticle">
+						        <div class="col containerArticle">
+						        
+					                <div class="imageArticle">
+					                	<img src="./lib/MarteauEncheres.jpg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
 					                </div>
-					            </div>
-					        </div>
-					</c:forEach>	        
-		        </ul>
-			</c:when>
-        </c:choose>
-        
-        
-        <div class="col-md-4">
-            <div class="carbon-example flex-wrapper">
-                <img src="./lib/MarteauEncheres.jpg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
-                <div class="carbon-text">
-                  <p><u>Titre de l'article :</u></p>
-                  <p>Prix : ?</p>
-                  <p>Fin de l'enchère : JJ/MM/AAAA
-                  <br>
-                  <p>Vendeur :</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="carbon-example flex-wrapper">
-                <img src="./lib/MarteauEncheres.jpg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
-                <div class="carbon-text">
-                  <p><u>Titre de l'article :</u></p>
-                  <p>Prix : ?</p>
-                  <p>Fin de l'enchère : JJ/MM/AAAA
-                  <br>
-                  <p>Vendeur :</p>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-   </div>
-					
-	</div>
-</div>	
+					                
+					                <div class="textArticle">
+					                  <h5><c:out value="${articleVendu.nomArticle}" /></h5>
+					                  <p>Prix : <c:out value="${articleVendu.prixVente}" /></p>
+					                  <p>Fin : <c:out value="${articleVendu.dateFinEncheres}" /></p>
+					                  <p>Vendeur : <c:out value="${articleVendu.unUtilisateur.pseudo}" /><i>sera indiqué quand l'offre sera créer depuis nouvelleVente.jsp</i></p>
+					                </div>
+					                
+						        </div>
+							</div>
+						</c:forEach>	        
+				</c:when>
+				<c:otherwise>
+	    			<p>Pas d'articles à afficher - Veuillez effectuer une autre recherche</p>
+	    		</c:otherwise>
+	        </c:choose>
+	    </div>
+		
+
 
 </body>
 </html>

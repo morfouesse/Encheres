@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+
+#titrePage {
+	text-align: center;
+	padding: 30px 0;
+}
+
+.radio1 {
+	font-weight : bold;
+	margin-left : 25px;
+}
+
+.doubleFile {
+	text-align : left;
+	margin-left : 55px;
+}
+
+.containerGrid {
+	display : grid;
+	grid-template-rows : auto;
+	grid-template-columns : [filtres] 40% [liste] auto;
+}
+
+
+.filtresCol {
+	display : block;
+	margin: 5px 15px;
+	grid-column : [filtres];
+	justify-items : stretch;
+}
+
+.listeCol {
+	display : block;
+	grid-column : [liste];
+	justify-items : center;
+}
+
+.filtresBox {
+	display: block;
+	margin : 5px;
+	padding : 0, 5px;  
+	position : sticky;
+	top : 0;
+	text-align : center;
+	border : solid 2px rgb(22, 95, 227);
+	border-radius : 60px;
+	box-shadow : 7px 7px rgb(22, 95, 227, .6);
+}
