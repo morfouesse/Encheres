@@ -62,15 +62,34 @@ public class UtilisateurManager {
 
 		return DaoFactory.getUtilisateurDao().selectNoUtilisateur(pseudo, motDePasse);
 	}
-	
+
 	public Utilisateur selectUtilisateurById(int noUtilisateur) {
-		
+
 		return DaoFactory.getUtilisateurDao().selectById(noUtilisateur);
 	}
-	
+
 	public void deleteUtilisateurById(int noUtilisateur) {
-		
+
 		DaoFactory.getUtilisateurDao().deleteUtilisateur(noUtilisateur);
+	}
+
+	public void updateUtilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
+			String rue, String codePostal, String ville, String motDePasse, int credit)  throws BllException {
+
+		BllException be = new BllException();
+		verificationUtilisateur(pseudo, nom, prenom, email, telephone,
+		 rue, codePostal, ville, motDePasse, be);
+
+		if(be.hasErreurs()) {
+			throw be;
+		}
+
+		boolean administrateur = false;
+		// nb de credit pour tous les utilisateur apres inscription
+
+		Utilisateur utilisateur = new Utilisateur(pseudo,nom,prenom,email,telephone,
+		rue, codePostal, ville, motDePasse, credit, administrateur);
+		DaoFactory.getUtilisateurDao().updateUtilisateur(noUtilisateur, utilisateur);
 	}
 
  	private void verificationUtilisateur(String pseudo, String motDePasse, BllException be) {
@@ -131,7 +150,14 @@ public class UtilisateurManager {
 		}else if(email.isBlank()) {
 			be.ajouterErreur(CodesErreuresBll.EMAIL_ISBLANK_ERREUR);
 			System.out.println("Erreur, email est vide, pas de charactere");
+		}
+		if(telephone == null) {
+				be.ajouterErreur(CodesErreuresBll.TELEPHONE_NULL_ERREUR);
+				System.out.println("Erreur, telephone est null");
 
+		}else if(telephone.isBlank()) {
+			be.ajouterErreur(CodesErreuresBll.TELEPHONE_ISBLANK_ERREUR);
+			System.out.println("Erreur, telephone est vide, pas de charactere");
 		}
 		if(rue == null) {
 			be.ajouterErreur(CodesErreuresBll.RUE_NULL_ERREUR);
