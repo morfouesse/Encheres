@@ -21,16 +21,19 @@
 		        		<c:forEach var="articleVendu" items="${listeRetour}">
 							<div class="col colArticle">
 						        <div class="col containerArticle">
-
-					                <div class="imageArticle">
-					                	<img src="images/MarteauEncheres.svg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
-					                </div>
+									<div>
+					                	<a href="${pageContext.request.contextPath}/ServletDetailVente">
+					                		<div class="imageArticle">
+					                		<img src="images/MarteauEncheres.svg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
+					                		</div>
+					                	</a>
+									</div>
 
 					                <div class="textArticle">
-					                  <h5><c:out value="${articleVendu.nomArticle}" /></h5>
+					                  <h5><a href="${pageContext.request.contextPath}/ServletDetailVente?noArticle=${articleVendu.noArticle}"><c:out value="${articleVendu.nomArticle}" /></a></h5>
 					                  <p>Prix : <c:out value="${articleVendu.prixVente}" /></p>
 					                  <p>Fin : <c:out value="${articleVendu.dateFinEncheres}" /></p>
-					                  <p>Vendeur : <c:out value="${articleVendu.unUtilisateur.pseudo}" /><i>sera indiqué quand l'offre sera créer depuis nouvelleVente.jsp</i></p>
+					                  <p>Vendeur : <c:out value="${articleVendu.unUtilisateur.pseudo}" /></p>
 					                </div>
 
 						        </div>

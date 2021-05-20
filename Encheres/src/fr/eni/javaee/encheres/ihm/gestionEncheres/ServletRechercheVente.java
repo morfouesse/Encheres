@@ -10,9 +10,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.javaee.encheres.bll.articleVendu.ArticleVenduManager;
+import fr.eni.javaee.encheres.bll.utilisateur.UtilisateurManager;
 import fr.eni.javaee.encheres.bo.ArticleVendu;
+import fr.eni.javaee.encheres.bo.Utilisateur;
 
 
 /**
@@ -35,11 +38,16 @@ public class ServletRechercheVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		HttpSession session = request.getSession();
-//		int noUtilisateur = (int)session.getAttribute("idUtilisateur");
+		int noUtilisateur = 0;
+		
+		HttpSession session = request.getSession();
+		if (session.getAttribute("idUtilisateur") != null) {
+			noUtilisateur = (int)session.getAttribute("idUtilisateur");
+		}
 
-		int noUtilisateur = 1;
-
+//		UtilisateurManager um = new UtilisateurManager();
+//		Utilisateur unUtilisateur = um.selectUtilisateurById(noUtilisateur);
+				
 		String extrait = request.getParameter("extrait");
 		String categorieStr = request.getParameter("categorie");
 		int categorie = Integer.parseInt(categorieStr);
@@ -78,7 +86,6 @@ public class ServletRechercheVente extends HttpServlet {
 			}
 		}
 
-		System.out.println(listeRetour);
 		request.setAttribute("listeRetour", listeRetour);
 
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp");

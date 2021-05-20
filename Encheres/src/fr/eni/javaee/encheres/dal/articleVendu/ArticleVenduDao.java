@@ -9,6 +9,8 @@ public interface ArticleVenduDao {
 
 	ArticleVendu insertArticleVendu(ArticleVendu articleVendu);
 	
+	ArticleVendu selectArticleVenduById(int noArticleVendu);
+	
 	List<ArticleVendu> select();
 	List<ArticleVendu> select(String extrait);
 	List<ArticleVendu> select(int categorie);

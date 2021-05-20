@@ -33,21 +33,24 @@
 					<form action="${pageContext.request.contextPath}/ServletEncherir" method="post">
 
 
-	            				<p>Nom de l'article : <c:out value="${ nomArticle }"/></p>
+	            				<p>Nom de l'article : <c:out value="${articleVendu.nomArticle}"/></p>
 
-	            				<p>Descritption : <c:out value="${ description }"/></p>
+	            				<p>Descritption : <c:out value="${articleVendudescription }"/></p>
 
-	            				<p>Categorie : <c:out value="${ categorie }"/></p>
+	            				<p>Categorie : <c:out value="${articleVendu.uneCategorie.libelle}"/></p>
 
-	            				<p>Meilleure offre : <c:out value="${ meilleureOffre }"/></p>
+	            				<p>Meilleure offre : <c:out value="${articleVendu.prixVente}"/></p>
 
-	            				<p>Mise à prix : <c:out value="${ miseAPrix }"/></p>
+	            				<p>Mise à prix : <c:out value="${articleVendu.miseAPrix}"/></p>
 
-	            				<p>Fin de l'enchère : <c:out value="${ finEnchere }"/></p>
+	            				<%-- <p>Fin de l'enchère : <c:out value="${ articleVendu.dateFinEnchere }"/></p> --%>
 
-            					<p>Retrait : <c:out value="${Rue}"/><br> <c:out value="${CP} ${Ville}"/></p>
+            					<h6>Retrait : </h6>
+            					<p><c:out value="${articleVendu.unRetrait.rue}"/><br>
+            					<c:out value="${articleVendu.unRetrait.codePostal}"/><br>
+            					<c:out value="${articleVendu.unRetrait.ville}"/></p>
 
-            					<p>Vendeur : <c:out value="${Rue}"/><br> <c:out value="${CP} ${Ville}"/></p>
+            					<p>Vendeur : <c:out value="${articleVendu.unUtilisateur.pseudo}"/></p> 
 
             			<div class="row">
 

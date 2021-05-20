@@ -40,8 +40,7 @@ public class ServletNouvelleVente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		//int noUtilisateur = (int)session.getAttribute("idUtilisateur");
-		int noUtilisateur = 7;
+		int noUtilisateur = (int)session.getAttribute("idUtilisateur");
 		ArticleVenduManager avm = new ArticleVenduManager();
 		UtilisateurManager um = new UtilisateurManager();
 		CategorieManager ct = new CategorieManager();
@@ -53,20 +52,13 @@ public class ServletNouvelleVente extends HttpServlet {
 		Date dateFinEncheres = OutilDate.getDateFromHtml(request.getParameter("dateFinEncheres"));
 		int miseAPrix = Integer.parseInt(request.getParameter("miseAPrix"));
 		int prixVente = miseAPrix;
-		//selectUtilisateurById fait par Antoine
-		//Utilisateur unUtilisateur = um.selectUtilisateurById(noUtilisateur);
-		Utilisateur unUtilisateur = new Utilisateur();
+		Utilisateur unUtilisateur = um.selectUtilisateurById(noUtilisateur);
 		Categorie uneCategorie = ct.selectCategorieById(Integer.parseInt(request.getParameter("categorie")));
 		Retrait unRetrait = new Retrait(unUtilisateur.getRue(), unUtilisateur.getCodePostal(), unUtilisateur.getVille());
 
 		//TEST
 		//------------------
-		System.out.println(nomArticle);
-		System.out.println(description);
-		System.out.println(dateDebutEncheres);
-		System.out.println(dateFinEncheres);
-		System.out.println(miseAPrix);
-		System.out.println(prixVente);
+		
 		System.out.println(uneCategorie);
 		//------------------
 
@@ -92,6 +84,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		//RetraitDao et compagnie a faire
 		rm.insertRetrait(unRetrait);
 
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/DetailVente.jsp").forward(request, response);
 	}
 
 }

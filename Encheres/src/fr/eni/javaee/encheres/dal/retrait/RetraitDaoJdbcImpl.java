@@ -11,12 +11,12 @@ import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
 public class RetraitDaoJdbcImpl implements RetraitDao {
 
-	private static final String INSERT = "INSERT INTO UTILISATEURS(no_article, rue, code_postal, ville ) VALUES(?, ?, ?, ?)";
+	private static final String INSERT = "INSERT INTO RETRAITS(no_article, rue, code_postal, ville ) VALUES(?, ?, ?, ?)";
 	
 	@Override
 	public Retrait insertRetrait(Retrait retrait) {
 		if (retrait == null) {
-			System.out.println("TO DO : gestion erreurs - erreur insertRetrait");
+			System.out.println("TO DO : gestion erreurs - erreur insertRetrait - retrait == null");
 		} else {
 
 
@@ -34,7 +34,7 @@ public class RetraitDaoJdbcImpl implements RetraitDao {
 					int nbLigneInseree = pStmt.executeUpdate();
 
 					if (nbLigneInseree == 0) {
-						System.out.println("TO DO : gestion erreurs - erreur insertRetrait");
+						System.out.println("TO DO : gestion erreurs - erreur insertRetrait nbLigne == 0");
 						//Voir DaoRepas pour exemple erreurs
 					}
 
