@@ -28,5 +28,7 @@ public class CodesErreuresBll {
 	public static final int MOTDEPASSE_ISBLANK_ERREUR = 20_015;
 	public static final int MOTDEPASSE_CONNEXION_NEXISTE_PAS_ERREUR = 20_016;
 	public static final int PSEUDO_CONNEXION_NEXISTE_PAS_ERREUR = 20_017;
+	public static final int TELEPHONE_NULL_ERREUR = 20_018;
+	public static final int TELEPHONE_ISBLANK_ERREUR = 20_019;
 
 }
