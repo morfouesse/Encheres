@@ -9,11 +9,8 @@
 
 <!-- BOOTSTRAP -->
 	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+	<script src="js/verifMotDePasse.js"></script>
 </head>
-
-
-
 <body>
 	<div class="jumbotron text-center">   <h1><b>Bienvenue sur Enchères et en OS !</b></h1>
 
@@ -59,7 +56,7 @@
 						<div class="form-row">
 							<div class="col form-group">
 								<label>Prenom </label> <input type="text" class="form-control"
-									placeholder="" name="prenom" pattern="[^0-9]{3,30}"
+									placeholder=" " name="prenom" pattern="[^0-9]{3,30}"
 									>
 								<p>
 									<font size="-1"><i>Entre 3 et 30 caractères</i></font>
@@ -149,20 +146,8 @@
 	</div>
 </div>
 
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-	var check = function() {
-		  if ( document.getElementById('password').value ==
-		    document.getElementById('verifPassword').value) {
-		    document.getElementById('message').innerHTML = '';
-		    document.getElementById('button').disabled = false;
-		  } else {
-		    document.getElementById('message').style.color = 'red';
-		    document.getElementById('message').innerHTML = 'le mot de passe ne correspond pas';
-		    document.getElementById('button').disabled = true;
-		  }
-		}
-	</script>
+
+
 
 
 <c:import url="Footer.jsp" />
