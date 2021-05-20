@@ -59,7 +59,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		Categorie uneCategorie = ct.selectCategorieById(Integer.parseInt(request.getParameter("categorie")));
 		Retrait unRetrait = new Retrait(unUtilisateur.getRue(), unUtilisateur.getCodePostal(), unUtilisateur.getVille());
 		
-		//TEST
+		//TEST 
 		//------------------
 		System.out.println(nomArticle);
 		System.out.println(description);
