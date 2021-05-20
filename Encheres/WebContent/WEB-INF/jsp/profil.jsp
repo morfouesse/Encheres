@@ -32,22 +32,22 @@
 						<h4 class="card-title mt-2">Mon profil</h4>
 					</header>
 
-				<form action="${pageContext.request.contextPath}/ServletInscritpion" method="get">
+				
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-md-12" style="text-align:left;">
-								<p>Pseudo : <c:out value="${ pseudo }"/></p>
-            					<p>Nom : <c:out value="${ nom }"/></p>
-            					<p>Prénom : <c:out value="${ prenom }"/></p>
-            					<p>Numéro de téléphone : <c:out value="${ telephone }"/></p>
-            					<p>Email : <c:out value="${ email }"/></p>
-            					<p>Rue : <c:out value="${ rue }"/></p>
-            					<p>Code Postal : <c:out value="${ cp }"/></p>
-            					<p>Ville : <c:out value="${ ville }"/></p>
+								<p>Pseudo : <c:out value="${ unUtilisateur.pseudo }"/></p>
+            					<p>Nom : <c:out value="${ unUtilisateur.nom }"/></p>
+            					<p>Prénom : <c:out value="${ unUtilisateur.prenom }"/></p>
+            					<p>Numéro de téléphone : <c:out value="${ unUtilisateur.telephone }"/></p>
+            					<p>Email : <c:out value="${ unUtilisateur.email }"/></p>
+            					<p>Rue : <c:out value="${ unUtilisateur.rue }"/></p>
+            					<p>Code Postal : <c:out value="${ unUtilisateur.cp }"/></p>
+            					<p>Ville : <c:out value="${ unUtilisateur.ville }"/></p>
             				</div>
 						</div>
 					</div>
-				</form>
+				
 
 
 					<div class="card-body">
