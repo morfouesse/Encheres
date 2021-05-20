@@ -65,7 +65,7 @@
 							
 						</div>
 						
-					</form>
+					</form> <!-- FIN FOMRULAIRE -->
 					
 					</div>
 				
