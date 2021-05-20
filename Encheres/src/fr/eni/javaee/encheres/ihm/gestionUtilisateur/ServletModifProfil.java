@@ -95,7 +95,7 @@ public class ServletModifProfil extends HttpServlet {
 
 			um.updateUtilisateur(idUtilisateur ,pseudo, nom, prenom, email, telephone,
 					 rue, cp, ville, mdp, credit);
-			this.getServletContext().getRequestDispatcher("/ServletProfil").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/ServletAccueil").forward(request, response);
 		} catch (BllException e) {
 			for (Integer code : e.getListeCodesErreur()) {
 				listeErreurs.add(LectureMessage.getMessageErreur(code));

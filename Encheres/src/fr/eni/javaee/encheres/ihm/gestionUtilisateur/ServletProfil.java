@@ -29,14 +29,14 @@ public class ServletProfil extends HttpServlet {
 
 		HttpSession session = request.getSession();
         int noUtilisateur = (int)session.getAttribute("idUtilisateur");
-        
-        
+
+
         UtilisateurManager um = new UtilisateurManager();
-        
+
         Utilisateur unUtilisateur = um.selectUtilisateurById(noUtilisateur);
-        
+
         request.setAttribute("unUtilisateur", unUtilisateur);
-        
+
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp");
         rd.forward(request, response);
 
@@ -44,11 +44,11 @@ public class ServletProfil extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
-		
-        
+
+
+
+
 	}
-	
+
 
 }
