@@ -203,19 +203,19 @@ public class ArticleVenduManager {
 			verif = false;
 		// si la dateDEbutEnchere est inférieur à la dateActuelle
 		// il y a une erreur
-		}else if(dateDebutEncheres.compareTo(dateActuelle) < 0) {
+		}/*else if(dateDebutEncheres.compareTo(dateActuelle) < 0) {
 			System.out.println("Erreur, dateDebutEnchere est inférieur à la date actuelle ");
 			verif = false;
-		}
+		}*/
 		if(dateFinEncheres == null) {
 			System.out.println("Erreur, dateFinEncheres est null");
 			verif = false;
 		// si la dateFinEnchere est supérieur à la dateDEbutEnchere
 		// il y a une erreur
-		}else if(dateFinEncheres.compareTo(dateDebutEncheres) > 0) {
-			System.out.println("Erreur, dateFinEncheres est supérieur à la date actuelle ");
+		}/*else if(dateFinEncheres.compareTo(dateDebutEncheres) < 0) {
+			System.out.println("Erreur, dateFinEncheres est inférieure à la date de début d'enchère ");
 			verif = false;
-		}
+		}*/
 		if(miseAPrix <= 0 ) {
 			System.out.println("Erreur, miseAPRix est infé ou égale à 0 ");
 			verif = false;

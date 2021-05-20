@@ -267,37 +267,54 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 
 	@Override
 	public Utilisateur selectById(int id) {
-		Utilisateur u = null;
-
+		Utilisateur utilisateur = null;
 		try(Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pStmt = cnx.prepareStatement(SELECT_UTILISATEURS_BY_NO_UTILISATEUR);
 			pStmt.setInt(1, id);
 
 			ResultSet rs = pStmt.executeQuery();
+			
+			int noUtilisateur = 0;
+			String pseudo = "";
+			String nom ="";
+			String prenom = "";
+			String email = "";
+			String telephone = "";
+			String rue = "";
+			String code_postal = "";
+			String ville = "";
+			String mot_de_passe = "";
+			int credit = 0;
+			boolean administrateur = false;
+			
+			if(rs.next()) {
+				
+			noUtilisateur = rs.getInt(1);
+			pseudo = rs.getString(2);
+			nom = rs.getString(3);
+			prenom = rs.getString(4);
+			email = rs.getString(5);
+			telephone = rs.getString(6);
+			rue = rs.getString(7);
+			code_postal = rs.getString(8);
+			ville = rs.getString(9);
+			mot_de_passe = rs.getString(10);
+			credit = rs.getInt(11);
+			administrateur = (rs.getByte(12) == 1 ? true: false);
+			}
+			
 
-			int noUtilisateur = rs.getInt(1);
-			String pseudo = rs.getString(2);
-			String nom = rs.getString(3);
-			String prenom = rs.getString(4);
-			String email = rs.getString(5);
-			String telephone = rs.getString(6);
-			String rue = rs.getString(7);
-			String code_postal = rs.getString(8);
-			String ville = rs.getString(9);
-			String mot_de_passe = rs.getString(10);
-			int credit = rs.getInt(11);
-			boolean administrateur = (rs.getByte(12) == 1 ? true: false);
-
-
-
-			u = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,
+			utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,
 					ville, mot_de_passe, credit, administrateur);
+			System.out.println("nous sommes dans jdbcimpl");
+			System.out.println(utilisateur);
 
 		}catch (SQLException e) {
-			System.out.println("TO DO : gestion erreurs");
+			System.out.println("TO DO : gestion erreurs - erreur selectUtilisateurById");
+			e.printStackTrace();
 		}
-		return u;
+		return utilisateur;
 	}
 
 

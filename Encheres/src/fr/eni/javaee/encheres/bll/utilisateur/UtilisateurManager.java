@@ -62,6 +62,16 @@ public class UtilisateurManager {
 
 		return DaoFactory.getUtilisateurDao().selectNoUtilisateur(pseudo, motDePasse);
 	}
+	
+	public Utilisateur selectUtilisateurById(int noUtilisateur) {
+		
+		return DaoFactory.getUtilisateurDao().selectById(noUtilisateur);
+	}
+	
+	public void deleteUtilisateurById(int noUtilisateur) {
+		
+		DaoFactory.getUtilisateurDao().deleteUtilisateur(noUtilisateur);
+	}
 
  	private void verificationUtilisateur(String pseudo, String motDePasse, BllException be) {
  		if(pseudo == null) {

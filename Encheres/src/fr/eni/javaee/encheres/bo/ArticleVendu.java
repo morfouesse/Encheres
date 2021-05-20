@@ -85,10 +85,11 @@ public class ArticleVendu {
 		this.unUtilisateur = unUtilisateur;
 		this.uneCategorie = uneCategorie;
 
-		// si une personne à moins de credit que le prix de vente alors il y a une erreur
-		if(this.unUtilisateur.getCredit() < this.prixVente) {
-			System.out.println("erreur,  une personne à moins de credit que le prix de vente");
-		}
+		//Plutôt pour Enchere
+//		// si une personne à moins de credit que le prix de vente alors il y a une erreur
+//		if(this.unUtilisateur.getCredit() < this.prixVente) {
+//			System.out.println("erreur,  une personne à moins de credit que le prix de vente");
+//		}
 	}
 
 
