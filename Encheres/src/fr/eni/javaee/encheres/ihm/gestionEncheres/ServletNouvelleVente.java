@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import fr.eni.javaee.encheres.bll.articleVendu.ArticleVenduManager;
 import fr.eni.javaee.encheres.bll.retrait.RetraitManager;
 import fr.eni.javaee.encheres.bll.utilisateur.UtilisateurManager;
+import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Categorie;
 import fr.eni.javaee.encheres.bo.Retrait;
 import fr.eni.javaee.encheres.bo.Utilisateur;
@@ -58,33 +59,41 @@ public class ServletNouvelleVente extends HttpServlet {
 
 		//TEST
 		//------------------
-		
-		System.out.println(uneCategorie);
+		System.out.println(unRetrait);
 		//------------------
-
-		//Gestion du Retrait s'il est différent de l'adresse de l'utilisateur
-		if (!((request.getParameter("rue") == null) || (request.getParameter("rue").isBlank()))
+		
+		boolean testChamps = (
+				((request.getParameter("rue") == null) || (request.getParameter("rue").isBlank()))
 				&& ((request.getParameter("codePostal") == null) || (request.getParameter("codePostal").isBlank()))
-				&& ((request.getParameter("ville") == null) || (request.getParameter("ville").isBlank()))){
+				&& ((request.getParameter("ville") == null) || (request.getParameter("ville").isBlank()))
+				);
+		
+		//Gestion du Retrait s'il est différent de l'adresse de l'utilisateur
+		if (!testChamps){
 			System.out.println("un/des champs du retrait est/sont remplis"); // TEST
 			unRetrait.setRue(request.getParameter("rue"));
 			unRetrait.setCodePostal(request.getParameter("codePostal"));
 			unRetrait.setVille(request.getParameter("ville"));
 		}
-
-
-		//On utilise le constructeur à la ligne 81 de articleVendu.java
-		//Il faut le modifier pour initialiser le retrait comme dans le constructeur ligne 103
-		int noArticleVendu = avm.insertArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres,
+		
+		int noArticle = avm.insertArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres,
 				miseAPrix, prixVente, unUtilisateur, uneCategorie).getNoArticle();
 
-		unRetrait.setNoRetrait(noArticleVendu);
+		ArticleVendu articleVendu = new ArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, 
+				miseAPrix, prixVente, unUtilisateur, uneCategorie);
+		
+		articleVendu.setUnRetrait(unRetrait);
+		
+		
+
+		unRetrait.setNoRetrait(noArticle);
 
 		//Insertion du retrait lié au nouveau ArticleVendu dans la BDD
-		//RetraitDao et compagnie a faire
 		rm.insertRetrait(unRetrait);
+		
+		request.setAttribute("articleVendu", articleVendu);
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/DetailVente.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp").forward(request, response);
 	}
 
 }

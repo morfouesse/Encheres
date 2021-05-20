@@ -307,8 +307,6 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 
 			utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,
 					ville, mot_de_passe, credit, administrateur);
-			System.out.println("nous sommes dans jdbcimpl");
-			System.out.println(utilisateur);
 
 		}catch (SQLException e) {
 			System.out.println("TO DO : gestion erreurs - erreur selectUtilisateurById");
