@@ -42,7 +42,7 @@
             					<p>Numéro de téléphone : <c:out value="${ unUtilisateur.telephone }"/></p>
             					<p>Email : <c:out value="${ unUtilisateur.email }"/></p>
             					<p>Rue : <c:out value="${ unUtilisateur.rue }"/></p>
-            					<p>Code Postal : <c:out value="${ unUtilisateur.cp }"/></p>
+            					<p>Code Postal : <c:out value="${ unUtilisateur.codePostal }"/></p>
             					<p>Ville : <c:out value="${ unUtilisateur.ville }"/></p>
             				</div>
 						</div>

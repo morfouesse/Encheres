@@ -27,14 +27,6 @@ public class ServletProfil extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/profil.jsp").forward(request, response);
-
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		
 		HttpSession session = request.getSession();
         int noUtilisateur = (int)session.getAttribute("idUtilisateur");
         
@@ -47,6 +39,14 @@ public class ServletProfil extends HttpServlet {
         
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/profil.jsp");
         rd.forward(request, response);
+
+	}
+
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		
         
 	}
 	
