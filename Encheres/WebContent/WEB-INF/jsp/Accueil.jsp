@@ -59,7 +59,7 @@
 									<option value ="2">Ameublement</option>
 									<option value="3">Informatique</option>
 									<option value="4">Sports &amp; Loisirs</option>
-									<option value="5">Sports &amp; Véhicules</option>
+									<option value="5">Véhicules</option>
 								</select>
 							</div>
 		
@@ -78,7 +78,7 @@
 									</div>
 		
 									<div>
-										<input type="radio" id="mesEnchere" name="choixAchats" value="mesEnchere">
+										<input type="radio" id="mesEncheres" name="choixAchats" value="mesEncheres">
 										<label for="">Mes enchères</label>
 									</div>
 		

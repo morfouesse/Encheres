@@ -8,6 +8,7 @@ package fr.eni.javaee.encheres.bo;
  *
  */
 public class Retrait {
+	private int noRetrait = 0;
 	private String rue;
 	private String codePostal;
 	private String ville;
@@ -66,6 +67,14 @@ public class Retrait {
 
 	public void setVille(String ville) {
 		this.ville = ville;
+	}
+
+	public int getNoRetrait() {
+		return noRetrait;
+	}
+
+	public void setNoRetrait(int noRetrait) {
+		this.noRetrait = noRetrait;
 	}
 
 	public ArticleVendu getUnArticleVendu() {

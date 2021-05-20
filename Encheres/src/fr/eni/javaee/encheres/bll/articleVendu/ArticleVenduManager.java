@@ -43,13 +43,10 @@ public class ArticleVenduManager {
 		List<ArticleVendu> retour = new ArrayList<>();
 		
 		if ((extrait == null) || (extrait.isBlank())&&(categorie == 0)) {
-			System.out.println("cas1");
 			retour = DaoFactory.getArticleVenduDao().select();
 		} else if (categorie == 0) {
-			System.out.println("cas2");
 			retour = DaoFactory.getArticleVenduDao().select(extrait);
 		} else {
-			System.out.println("cas3");
 			retour = DaoFactory.getArticleVenduDao().select(categorie);
 		}
 		
@@ -75,12 +72,16 @@ public class ArticleVenduManager {
 		List<ArticleVendu> retour = new ArrayList<>();
 		
 		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
+			System.out.println("ICI4");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur);
 		} else if (categorie == 0) {
+			System.out.println("ICI5");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait);
 		} else if ((extrait == null) || (extrait.isBlank())){
+			System.out.println("ICI6");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, categorie);
 		} else {
+			System.out.println("ICI7");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait, categorie);
 		}
 		return retour;
