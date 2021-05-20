@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 
@@ -25,6 +25,8 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 	private static final String SELECT_VALID_MDP = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
 
 	private static final String SELECT_NO_UTILISATEUR = "SELECT no_utilisateur FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?";
+
+	private static final String SELECT_UTILISATEURS_BY_NO_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 
 
 	@Override
@@ -261,6 +263,41 @@ public class UtilisateurDaoJdbcImpl implements UtilisateurDao{
 			System.out.println("TO DO : gestion erreurs - erreur selectNoUtilisateur");
 		}
 		return noUtilisateur;
+	}
+
+	@Override
+	public Utilisateur selectById(int id) {
+		Utilisateur u = null;
+
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_UTILISATEURS_BY_NO_UTILISATEUR);
+			pStmt.setInt(1, id);
+
+			ResultSet rs = pStmt.executeQuery();
+
+			int noUtilisateur = rs.getInt(1);
+			String pseudo = rs.getString(2);
+			String nom = rs.getString(3);
+			String prenom = rs.getString(4);
+			String email = rs.getString(5);
+			String telephone = rs.getString(6);
+			String rue = rs.getString(7);
+			String code_postal = rs.getString(8);
+			String ville = rs.getString(9);
+			String mot_de_passe = rs.getString(10);
+			int credit = rs.getInt(11);
+			boolean administrateur = (rs.getByte(12) == 1 ? true: false);
+
+
+
+			u = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,
+					ville, mot_de_passe, credit, administrateur);
+
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs");
+		}
+		return u;
 	}
 
 
