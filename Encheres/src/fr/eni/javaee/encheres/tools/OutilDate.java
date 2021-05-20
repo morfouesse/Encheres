@@ -17,6 +17,7 @@ public class OutilDate {
 
 	private static final SimpleDateFormat LE_FORMAT_DATE = new SimpleDateFormat("dd/MM/yyyy");
 	private static final SimpleDateFormat LE_FORMAT_DATE_HEURE = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+	private static final SimpleDateFormat LE_FORMAT_DATE_HTML = new SimpleDateFormat("yyyy-MM-dd");
 
 
 	public static String getStringFormatDate(Date uneDate) {
@@ -49,6 +50,21 @@ public class OutilDate {
 	public static Date getDateFormatDateHeure(String dateStr) {
 
 		SimpleDateFormat formatter = LE_FORMAT_DATE_HEURE;
+
+		Date date = null;
+		try {
+			date = formatter.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return date;
+	}
+	
+	public static Date getDateFromHtml(String dateStr) {
+
+		SimpleDateFormat formatter = LE_FORMAT_DATE_HTML;
 
 		Date date = null;
 		try {

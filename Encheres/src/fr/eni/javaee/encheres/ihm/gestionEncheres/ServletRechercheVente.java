@@ -50,29 +50,27 @@ public class ServletRechercheVente extends HttpServlet {
 		
 		if (request.getParameter("choixAchatsVentes") == null) {
 		//Affichage de tous les articles de la bdd (radio buttons "achats" et "ventes" pas sélectionnés)
-			System.out.println("you are here");
-			System.out.println(extrait);
-			System.out.println(categorie);
 			listeRetour = manager.select(extrait, categorie);
-		} else if ("mesVentesCheked".equals(request.getParameter("mesVentes"))) {
-		//Recherche dans "Ventes" uniquement ; selon quelle chekbox est sélectionnée
-			if ("checked".equals(request.getParameter("mesVentesEnCours"))) {
+		} else if ("mesVentesChecked".equals(request.getParameter("choixAchatsVentes"))) {
+		//Recherche dans "Ventes" uniquement ; selon quelle radio est sélectionnée
+			if ("mesVentesEnCours".equals(request.getParameter("choixVentes"))) {
+				System.out.println("ICI3");
 				listeRetour = manager.selectVentesEnCours(noUtilisateur, extrait, categorie);
-			} else if ("checked".equals(request.getParameter("ventesNonDebutees"))) {
+			} else if ("ventesNonDébutées".equals(request.getParameter("choixVentes"))) {
 				listeRetour = manager.selectVentesNonDebutees(noUtilisateur, extrait, categorie);
-			}else if ("checked".equals(request.getParameter("ventesTerminees"))) {
+			} else if ("ventesTerminees".equals(request.getParameter("choixVentes"))) {
 				listeRetour = manager.selectVentesTerminees(noUtilisateur, extrait, categorie);
 			} else {
 			//Acune checkbox sélectionnée
 				listeRetour = manager.selectVentes(noUtilisateur, extrait, categorie);
 			}
-		} else if ("achatsCheked".equals(request.getParameter("achats"))) {
-		//Recherche dans "Achats" uniquement ; selon quelle chekbox est sélectionnée
-			if ("checked".equals(request.getParameter("encheresOuvertes"))) {
+		} else if ("achatsCheked".equals(request.getParameter("choixAchatsVentes"))) {
+		//Recherche dans "Achats" uniquement ; selon quelle radio est sélectionnée
+			if ("encheresOuvertes".equals(request.getParameter("choixAchats"))) {
 				listeRetour = manager.selectAchatsEncheresOuvertes(noUtilisateur, extrait, categorie);
-			} else if ("checked".equals(request.getParameter("mesEncheres"))) {
+			} else if ("mesEncheres".equals(request.getParameter("choixAchats"))) {
 				listeRetour = manager.selectAchatsMesEncheres(noUtilisateur, extrait, categorie);
-			}else if ("checked".equals(request.getParameter("mesEncheresRemportees"))) {
+			}else if ("mesEncheresRemportees".equals(request.getParameter("choixAchats"))) {
 				listeRetour = manager.selectAchatsMesEncheresRemportees(noUtilisateur, extrait, categorie);
 			} else {
 			//Acune checkbox sélectionnée
