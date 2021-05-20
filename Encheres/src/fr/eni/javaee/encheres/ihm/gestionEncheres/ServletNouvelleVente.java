@@ -23,22 +23,22 @@ import fr.eni.javaee.encheres.tools.OutilDate;
 @WebServlet("/ServletNouvelleVente")
 public class ServletNouvelleVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-   
+
+
     public ServletNouvelleVente() {
         super();
-        
+
     }
 
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/NouvelleVente.jsp").forward(request, response);
+
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/nouvelleVente.jsp").forward(request, response);
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
 		//int noUtilisateur = (int)session.getAttribute("idUtilisateur");
 		int noUtilisateur = 7;
@@ -46,7 +46,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		UtilisateurManager um = new UtilisateurManager();
 		CategorieManager ct = new CategorieManager();
 		RetraitManager rm = new RetraitManager();
-		
+
 		String nomArticle = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
 		Date dateDebutEncheres = OutilDate.getDateFromHtml(request.getParameter("dateDebutEncheres"));
@@ -58,8 +58,8 @@ public class ServletNouvelleVente extends HttpServlet {
 		Utilisateur unUtilisateur = new Utilisateur();
 		Categorie uneCategorie = ct.selectCategorieById(Integer.parseInt(request.getParameter("categorie")));
 		Retrait unRetrait = new Retrait(unUtilisateur.getRue(), unUtilisateur.getCodePostal(), unUtilisateur.getVille());
-		
-		//TEST 
+
+		//TEST
 		//------------------
 		System.out.println(nomArticle);
 		System.out.println(description);
@@ -69,7 +69,7 @@ public class ServletNouvelleVente extends HttpServlet {
 		System.out.println(prixVente);
 		System.out.println(uneCategorie);
 		//------------------
-		
+
 		//Gestion du Retrait s'il est différent de l'adresse de l'utilisateur
 		if (!((request.getParameter("rue") == null) || (request.getParameter("rue").isBlank()))
 				&& ((request.getParameter("codePostal") == null) || (request.getParameter("codePostal").isBlank()))
@@ -79,19 +79,19 @@ public class ServletNouvelleVente extends HttpServlet {
 			unRetrait.setCodePostal(request.getParameter("codePostal"));
 			unRetrait.setVille(request.getParameter("ville"));
 		}
-		
-		
+
+
 		//On utilise le constructeur à la ligne 81 de articleVendu.java
 		//Il faut le modifier pour initialiser le retrait comme dans le constructeur ligne 103
-		int noArticleVendu = avm.insertArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres, 
+		int noArticleVendu = avm.insertArticleVendu(nomArticle, description, dateDebutEncheres, dateFinEncheres,
 				miseAPrix, prixVente, unUtilisateur, uneCategorie).getNoArticle();
-		
+
 		unRetrait.setNoRetrait(noArticleVendu);
-		
+
 		//Insertion du retrait lié au nouveau ArticleVendu dans la BDD
 		//RetraitDao et compagnie a faire
 		rm.insertRetrait(unRetrait);
-		
+
 	}
 
 }

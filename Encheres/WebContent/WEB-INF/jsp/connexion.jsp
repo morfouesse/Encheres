@@ -25,7 +25,7 @@
 			</h1>
 		</div>
 	</div>
-	<c:import url="Navigation.jsp" />
+	<c:import url="navigation.jsp" />
 	<br>
 
 <div class="container">
@@ -96,7 +96,7 @@
 
 
 
-<c:import url="Footer.jsp" />
+<c:import url="footer.jsp" />
 
 
 </body>

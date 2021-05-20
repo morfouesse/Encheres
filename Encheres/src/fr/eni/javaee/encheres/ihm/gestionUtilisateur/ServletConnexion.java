@@ -31,7 +31,7 @@ public class ServletConnexion extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/connexion.jsp").forward(request, response);
 	}
 
 
@@ -56,7 +56,7 @@ public class ServletConnexion extends HttpServlet {
 				listeErreurs.add(LectureMessage.getMessageErreur(code));
 			}
 			request.setAttribute("listeErreurs", listeErreurs);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/connexion.jsp").forward(request, response);
 		}
 	}
 

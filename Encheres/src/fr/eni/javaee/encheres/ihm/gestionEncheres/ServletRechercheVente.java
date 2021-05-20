@@ -21,7 +21,7 @@ import fr.eni.javaee.encheres.bo.ArticleVendu;
 @WebServlet("/ServletRechercheVente")
 public class ServletRechercheVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -37,17 +37,17 @@ public class ServletRechercheVente extends HttpServlet {
 
 //		HttpSession session = request.getSession();
 //		int noUtilisateur = (int)session.getAttribute("idUtilisateur");
-		
+
 		int noUtilisateur = 1;
-		
+
 		String extrait = request.getParameter("extrait");
 		String categorieStr = request.getParameter("categorie");
 		int categorie = Integer.parseInt(categorieStr);
-		
+
 		List<ArticleVendu> listeRetour = new ArrayList<>();
-		
+
 		ArticleVenduManager manager = new ArticleVenduManager();
-		
+
 		if (request.getParameter("choixAchatsVentes") == null) {
 		//Affichage de tous les articles de la bdd (radio buttons "achats" et "ventes" pas sélectionnés)
 			listeRetour = manager.select(extrait, categorie);
@@ -77,11 +77,11 @@ public class ServletRechercheVente extends HttpServlet {
 				listeRetour = manager.selectAchats(noUtilisateur, extrait, categorie);
 			}
 		}
-		
+
 		System.out.println(listeRetour);
 		request.setAttribute("listeRetour", listeRetour);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/accueil.jsp");
 		rd.forward(request, response);
 
 	}

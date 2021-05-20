@@ -14,7 +14,7 @@
 
 <body>
 
-<c:import url="Navigation.jsp"/>
+<c:import url="navigation.jsp"/>
 
 	<div class="jumbotron">
 		<div class="text-center" id="titre">
@@ -174,7 +174,7 @@
 		</div>
 	</div>
 
-<c:import url="Footer.jsp" />
+<c:import url="footer.jsp" />
 
 </body>
 </html>

@@ -150,7 +150,7 @@
 
 
 
-<c:import url="Footer.jsp" />
+<c:import url="footer.jsp" />
 
 </body>
 </html>

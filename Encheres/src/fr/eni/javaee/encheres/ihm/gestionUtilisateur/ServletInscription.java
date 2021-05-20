@@ -34,7 +34,7 @@ public class ServletInscription extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Inscription.jsp").forward(request, response);
+		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class ServletInscription extends HttpServlet {
 				listeErreurs.add(LectureMessage.getMessageErreur(code));
 			}
 			request.setAttribute("listeErreurs", listeErreurs);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Inscription.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/inscription.jsp").forward(request, response);
 		}
 
 
