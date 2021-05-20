@@ -146,6 +146,10 @@ public class ArticleVendu {
 		builder.append(etatVente);
 		builder.append(", enchereLst=");
 		builder.append(enchereLst);
+		builder.append(", unUtilisateur=");
+		builder.append(unUtilisateur);
+		builder.append(", uneCategorie=");
+		builder.append(uneCategorie);
 		builder.append("]");
 		return builder.toString();
 	}

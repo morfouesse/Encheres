@@ -177,6 +177,10 @@ public class ArticleVenduManager {
 		return retour;
 	}
 	
+	public ArticleVendu selectArticleVenduById(int noArticle) {
+		return DaoFactory.getArticleVenduDao().selectArticleVenduById(noArticle);
+	}
+	
 
 	private boolean verificationArticle(String nomArticle, String description, Date dateDebutEncheres,
 			Date dateFinEncheres, int miseAPrix, int prixVente, Utilisateur unUtilisateur, Categorie uneCategorie) {

@@ -138,7 +138,14 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	
 	
 	private static final String DELETE_FROM_ENCHERES = "DELETE FROM ENCHERES WHERE no_article = ?";
-private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+	private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
+
+	private static final String SELECT_ARTICLEVENDU_BY_NO_ARTICLEVENDU = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
+
+	private static final String SELECT_UTILISATEURS_BY_NO_UTILISATEUR = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
+	
+	private static final String SELECT_CATEGORIE_NO_CATEGORIE = "SELECT * FROM CATEGORIES WHERE no_categorie = ?";
+	
 	
 	
 	@Override
@@ -1064,12 +1071,14 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 				Date dateFinEncheres = rs.getDate("date_fin_encheres");
 				int prixInitial = rs.getInt("prix_initial");
 				int prixVente = rs.getInt("prix_vente");
-				int noUtilisateur = rs.getInt("no_utilisateur");
 				int noCategorie = rs.getInt("no_Categorie");
 				
 				
+				int noUtilisateur = rs.getInt("no_utilisateur");
+				Utilisateur unUtilisateur = selectUtilisateurById(noUtilisateur);
+				
 				article = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, prixInitial
-						, prixVente, new Utilisateur(noUtilisateur), new Categorie(noCategorie));
+						, prixVente, unUtilisateur, new Categorie(noCategorie));
 				
 				lst.add(article);
 			}
@@ -1078,7 +1087,130 @@ private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_
 	}
 
 
+	@Override
+	public ArticleVendu selectArticleVenduById(int noArticleVendu) {
+		ArticleVendu articleVendu = null;
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_ARTICLEVENDU_BY_NO_ARTICLEVENDU);
+			pStmt.setInt(1, noArticleVendu);
+
+			ResultSet rs = pStmt.executeQuery();
+			
+			int noArticle = 0;
+			String nomArticle ="";
+			String description = "";
+			Date dateDebutEncheres = new Date();
+			Date dateFinEncheres = new Date();
+			int miseAPrix = 0;
+			int prixVente = 0;
+			int noUtilisateur = 0;
+			int noCategorie = 0;
+			
+			if(rs.next()) {
+				
+			noArticle = rs.getInt(1);
+			nomArticle = rs.getString(2);
+			description = rs.getString(3);
+			dateDebutEncheres = rs.getDate(4);
+			dateFinEncheres = rs.getDate(5);
+			miseAPrix = rs.getInt(6);
+			prixVente = rs.getInt(7);
+			noUtilisateur = rs.getInt(8);
+			noCategorie = rs.getInt(9);
+			}
+			
+			Utilisateur unUtilisateur = selectUtilisateurById(noUtilisateur);
+			
+			Categorie uneCategorie = selectCategorieById(noCategorie);
+			
+			
+			articleVendu = new ArticleVendu(noArticle, nomArticle, description, dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente, unUtilisateur, uneCategorie);
+			
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs - erreur selectUtilisateurById ArticleVenduDoaJdbcImpl");
+			e.printStackTrace();
+		}
+		return articleVendu;
+	}
 	
+	
+	
+	public Utilisateur selectUtilisateurById(int id) {
+		Utilisateur utilisateur = null;
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_UTILISATEURS_BY_NO_UTILISATEUR);
+			pStmt.setInt(1, id);
+
+			ResultSet rs = pStmt.executeQuery();
+			
+			int noUtilisateur = 0;
+			String pseudo = "";
+			String nom ="";
+			String prenom = "";
+			String email = "";
+			String telephone = "";
+			String rue = "";
+			String code_postal = "";
+			String ville = "";
+			String mot_de_passe = "";
+			int credit = 0;
+			boolean administrateur = false;
+			
+			if(rs.next()) {
+				
+			noUtilisateur = rs.getInt(1);
+			pseudo = rs.getString(2);
+			nom = rs.getString(3);
+			prenom = rs.getString(4);
+			email = rs.getString(5);
+			telephone = rs.getString(6);
+			rue = rs.getString(7);
+			code_postal = rs.getString(8);
+			ville = rs.getString(9);
+			mot_de_passe = rs.getString(10);
+			credit = rs.getInt(11);
+			administrateur = (rs.getByte(12) == 1 ? true: false);
+			}
+			
+
+			utilisateur = new Utilisateur(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal,
+					ville, mot_de_passe, credit, administrateur);
+
+		}catch (SQLException e) {
+			System.out.println("TO DO : gestion erreurs - erreur selectUtilisateurById ArticleVenduDoaJdbcImpl");
+			e.printStackTrace();
+		}
+		return utilisateur;
+	}
+	
+	public Categorie selectCategorieById(int noCategorie) {
+		Categorie categorie = null;
+
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+
+			PreparedStatement pStmt = cnx.prepareStatement(SELECT_CATEGORIE_NO_CATEGORIE);
+			pStmt.setInt(1, noCategorie);
+
+			ResultSet rs = pStmt.executeQuery();
+			
+			String libelle ="";
+
+			while(rs.next()) {
+				libelle = rs.getString(2);
+			}
+			
+			categorie = new Categorie(noCategorie, libelle);
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("TO DO : gestion erreurs - erreur selectCategorieById");
+		}
+		return categorie;
+	}
+
+
 	
 	
 }
