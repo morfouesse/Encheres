@@ -35,6 +35,7 @@ public class ServletModifProfil extends HttpServlet {
 		UtilisateurManager um = new UtilisateurManager();
 		Utilisateur u = um.selectUtilisateurById(idUtilisateur);
 
+		// on remplis les champs directement
 		request.setAttribute("pseudo", u.getPseudo());
 		request.setAttribute("nom", u.getNom());
 		request.setAttribute("prenom", u.getPrenom());
