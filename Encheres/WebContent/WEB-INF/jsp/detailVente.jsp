@@ -33,7 +33,7 @@
 
 					
 
-	            				<p>Description : <c:out value="${articleVendudescription }"/></p>
+	            				<p>Description : <c:out value="${articleVendu.description }"/></p>
 
 	            				<p>Categorie : <c:out value="${articleVendu.uneCategorie.libelle}"/></p>
 
@@ -72,6 +72,12 @@
 
 					</form> <!-- FIN FOMRULAIRE -->
 					
+					</c:when>
+					<c:when test="${(noUtilisateur == articleVendu.unUtilisateur.noUtilisateur)}">
+						<div>
+							<a href="${pageContext.request.contextPath}/ServletSupprVente?noArticle=${articleVendu.noArticle}"><button type="submit" class="btn btn-primary"
+							style="justify-content-center">Supprimer mon annonce</button></a>
+						</div>
 					</c:when>
 					<c:otherwise><i></i></c:otherwise>
 			</c:choose>

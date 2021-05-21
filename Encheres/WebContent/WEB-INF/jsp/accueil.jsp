@@ -17,6 +17,8 @@
 
 <body>
 
+	<c:import url="navigation.jsp" />
+	
 	<div class="jumbotron">
 
 		<div class="text-center" id="titre">
@@ -26,8 +28,6 @@
 		</div>
 	</div>
 
-
-	<c:import url="navigation.jsp" />
 
 
 <div id="titrePage"><h2>Nos enchères</h2></div>

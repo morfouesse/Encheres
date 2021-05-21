@@ -179,6 +179,9 @@ public class ArticleVenduManager {
 		return DaoFactory.getArticleVenduDao().updateArticleVendu(noArticle, articleVendu);
 	}
 	
+	public void deleteArticleVendu(int noArticle) {
+		DaoFactory.getArticleVenduDao().deleteArticleVendu(noArticle);
+	}
 
 	private boolean verificationArticle(String nomArticle, String description, Date dateDebutEncheres,
 			Date dateFinEncheres, int miseAPrix, int prixVente, Utilisateur unUtilisateur, Categorie uneCategorie) {

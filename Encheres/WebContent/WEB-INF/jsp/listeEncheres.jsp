@@ -22,7 +22,7 @@
 							<div class="col colArticle">
 						        <div class="col containerArticle">
 									<div>
-					                	<a href="${pageContext.request.contextPath}/ServletDetailVente">
+					                	<a href="${pageContext.request.contextPath}/ServletDetailVente?noArticle=${articleVendu.noArticle}">
 					                		<div class="imageArticle">
 					                		<img src="images/MarteauEncheres.svg" alt="LogoEnchere" style="width: 200px; heigth: 200px">
 					                		</div>

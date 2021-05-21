@@ -138,6 +138,9 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 	
 	
 	private static final String DELETE_FROM_ENCHERES = "DELETE FROM ENCHERES WHERE no_article = ?";
+	
+	private static final String DELETE_FROM_RETRAITS = "DELETE FROM RETRAITS WHERE no_article = ?";
+	
 	private static final String DELETE_FROM_ARTICLES_VENDUS = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 
 	private static final String SELECT_ARTICLEVENDU_BY_NO_ARTICLEVENDU = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
@@ -1023,34 +1026,35 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 				cnx.setAutoCommit(false);
 
 				try {
+					PreparedStatement pStmt = cnx.prepareStatement(DELETE_FROM_RETRAITS);
+					pStmt.setInt(1, noArticle);
+					
+					pStmt.executeUpdate();
+					
 					PreparedStatement pStmt1 = cnx.prepareStatement(DELETE_FROM_ENCHERES);
 					pStmt1.setInt(1, noArticle);
 					
-					int nbLigneInseree1 = pStmt1.executeUpdate();
+					pStmt1.executeUpdate();
 					
-					if (nbLigneInseree1 != 1) {
-						System.out.println("TO DO : gestion erreurs");
-						//Voir DaoRepas pour exemple erreurs
-					}
 					
 					PreparedStatement pStmt2 = cnx.prepareStatement(DELETE_FROM_ARTICLES_VENDUS);
 					pStmt2.setInt(1, noArticle);
 					
-					int nbLigneInseree2 = pStmt1.executeUpdate();
+					int nbLigneInseree2 = pStmt2.executeUpdate();
 					
 					if (nbLigneInseree2 != 1) {
-						System.out.println("TO DO : gestion erreurs");
+						System.out.println("TO DO : gestion erreurs - là");
 						//Voir DaoRepas pour exemple erreurs
 					}
 					
 					cnx.commit(); //on valide
 				} catch (Exception e) {
 					cnx.rollback(); //on annule tout si problème
-					System.out.println("TO DO : gestion erreurs");
+					System.out.println("TO DO : gestion erreurs - erreur deleteArticle");
 					e.printStackTrace();
 				}
 			} catch (SQLException e) {
-				System.out.println("TO DO : gestion erreurs");
+				System.out.println("TO DO : gestion erreurs - erreur deleteArticle");
 				e.printStackTrace();
 			}
 		}
