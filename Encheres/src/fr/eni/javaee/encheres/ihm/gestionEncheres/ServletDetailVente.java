@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.javaee.encheres.bll.articleVendu.ArticleVenduManager;
 import fr.eni.javaee.encheres.bo.ArticleVendu;
@@ -32,6 +33,12 @@ public class ServletDetailVente extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession();
+		int noUtilisateur = 0;
+		if(session.getAttribute("idUtilisateur") != null) {
+			noUtilisateur = (int)session.getAttribute("idUtilisateur");
+		}
+		
 		String noArticleStr = request.getParameter("noArticle");
 		int noArticle = Integer.parseInt(noArticleStr);
 
@@ -39,7 +46,7 @@ public class ServletDetailVente extends HttpServlet {
 		
 		ArticleVendu articleVendu = am.selectArticleVenduById(noArticle);
 		
-		
+		request.setAttribute("noUtilisateur", noUtilisateur);
 		request.setAttribute("articleVendu", articleVendu);
 
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp");

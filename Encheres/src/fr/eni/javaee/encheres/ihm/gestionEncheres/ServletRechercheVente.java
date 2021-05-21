@@ -72,8 +72,9 @@ public class ServletRechercheVente extends HttpServlet {
 			//Acune checkbox sélectionnée
 				listeRetour = manager.selectVentes(noUtilisateur, extrait, categorie);
 			}
-		} else if ("achatsCheked".equals(request.getParameter("choixAchatsVentes"))) {
-		//Recherche dans "Achats" uniquement ; selon quelle radio est sélectionnée
+		} else if ("achatsChecked".equals(request.getParameter("choixAchatsVentes"))) {
+		System.out.println("coucou");
+			//Recherche dans "Achats" uniquement ; selon quelle radio est sélectionnée
 			if ("encheresOuvertes".equals(request.getParameter("choixAchats"))) {
 				listeRetour = manager.selectAchatsEncheresOuvertes(noUtilisateur, extrait, categorie);
 			} else if ("mesEncheres".equals(request.getParameter("choixAchats"))) {

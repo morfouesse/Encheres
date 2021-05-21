@@ -41,7 +41,7 @@
 						</c:forEach>
 				</c:when>
 				<c:otherwise>
-	    			<p>Pas d'articles à afficher - Veuillez effectuer une autre recherche</p>
+	    			<p class="textArticle">Effectuez une recher pour afficher des articles.</p>
 	    		</c:otherwise>
 	        </c:choose>
 	    </div>

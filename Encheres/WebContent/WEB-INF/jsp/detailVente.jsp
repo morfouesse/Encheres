@@ -11,6 +11,7 @@
 		<meta charset="UTF-8">
 		<title>Détail vente</title>
 		<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<script src="js/detailVenteScript.js" type="text/javascript"></script>
 	</head>
 
 <body>
@@ -27,23 +28,18 @@
 					<div class="col-md-6">
 
 						<header>
-							<h4>Mon profil</h4>
+							<h4><c:out value="${articleVendu.nomArticle}"/></h4>
 						</header><br>
 
-					<form action="${pageContext.request.contextPath}/ServletEncherir" method="post">
+					
 
-
-	            				<p>Nom de l'article : <c:out value="${articleVendu.nomArticle}"/></p>
-
-	            				<p>Descritption : <c:out value="${articleVendudescription }"/></p>
+	            				<p>Description : <c:out value="${articleVendudescription }"/></p>
 
 	            				<p>Categorie : <c:out value="${articleVendu.uneCategorie.libelle}"/></p>
 
-	            				<p>Meilleure offre : <c:out value="${articleVendu.prixVente}"/></p>
+	            				<p>Meilleure offre : <span id="prixVente"><c:out value="${articleVendu.prixVente}"/></span></p>
 
-	            				<p>Mise à prix : <c:out value="${articleVendu.miseAPrix}"/></p>
-
-	            				<%-- <p>Fin de l'enchère : <c:out value="${ articleVendu.dateFinEnchere }"/></p> --%>
+	            				<p id="dateFinEncheres">Fin de l'enchère : <c:out value="${ articleVendu.dateFinEncheres }"/></p>
 
             					<h6>Retrait : </h6>
             					<p><c:out value="${articleVendu.unRetrait.rue}"/><br>
@@ -52,29 +48,38 @@
 
             					<p>Vendeur : <c:out value="${articleVendu.unUtilisateur.pseudo}"/></p> 
 
+			
+					
+			<c:choose>
+		        <c:when test="${(noUtilisateur != articleVendu.unUtilisateur.noUtilisateur)}">
+					
+					<form action="${pageContext.request.contextPath}/ServletEncherir?noArticle=${articleVendu.noArticle}" method="post">
             			<div class="row">
-
        	 					<div class="col">
        	 						<label for="ticketNum">Ma proposition :</label>
-       	 						<input type="number" id="prix" name="Prix"
-       									min="0" value="100" step="10" style="width:70px">
+       	 						<input type="number" id="montantEnchere" name="montantEnchere" onkeyup='check();'
+       									min="0" value="${articleVendu.prixVente}" step="1" style="width:70px">
+       						<span id='message'></span>
        						</div>
 
 							<div class="col">
-								<a href="${pageContext.request.contextPath}/ServletEncherir"><button type="submit"
+								<button type="submit" id="boutonEncherir"
 								class="btn btn-primary btn-block" style="width: 250px; display: block;
-	  							margin : auto; ">Encherir</button></a><br>
+	  							margin : auto; ">Encherir</button><br>
 							</div>
 
 						</div>
 
 					</form> <!-- FIN FOMRULAIRE -->
-
+					
+					</c:when>
+					<c:otherwise><i></i></c:otherwise>
+			</c:choose>
+			
 					</div>
 
 				</div>
 			</div>
-
 	</body>
 
 	</html>

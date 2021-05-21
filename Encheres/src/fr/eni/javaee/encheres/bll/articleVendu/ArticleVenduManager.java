@@ -32,8 +32,6 @@ public class ArticleVenduManager {
 				dateDebutEncheres, dateFinEncheres, miseAPrix, prixVente,
 				unUtilisateur, uneCategorie);
 
-		System.out.println("ok");
-
 
 		return DaoFactory.getArticleVenduDao().insertArticleVendu(articleVendu);
 	}
@@ -72,16 +70,12 @@ public class ArticleVenduManager {
 		List<ArticleVendu> retour = new ArrayList<>();
 		
 		if (((extrait == null) || (extrait.isBlank()))&&(categorie ==0)) {
-			System.out.println("ICI4");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur);
 		} else if (categorie == 0) {
-			System.out.println("ICI5");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait);
 		} else if ((extrait == null) || (extrait.isBlank())){
-			System.out.println("ICI6");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, categorie);
 		} else {
-			System.out.println("ICI7");
 			retour = DaoFactory.getArticleVenduDao().selectVentesEnCours(noUtilisateur, extrait, categorie);
 		}
 		return retour;
@@ -179,6 +173,10 @@ public class ArticleVenduManager {
 	
 	public ArticleVendu selectArticleVenduById(int noArticle) {
 		return DaoFactory.getArticleVenduDao().selectArticleVenduById(noArticle);
+	}
+	
+	public ArticleVendu updateArticleVendu(int noArticle, ArticleVendu articleVendu) {
+		return DaoFactory.getArticleVenduDao().updateArticleVendu(noArticle, articleVendu);
 	}
 	
 

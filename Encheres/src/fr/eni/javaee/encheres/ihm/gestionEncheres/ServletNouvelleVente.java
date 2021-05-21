@@ -90,7 +90,7 @@ public class ServletNouvelleVente extends HttpServlet {
 
 		//Insertion du retrait lié au nouveau ArticleVendu dans la BDD
 		rm.insertRetrait(unRetrait);
-		
+		request.setAttribute("noUtilisateur", noUtilisateur);
 		request.setAttribute("articleVendu", articleVendu);
 
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/detailVente.jsp").forward(request, response);
