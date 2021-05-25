@@ -237,7 +237,7 @@ public class ArticleVenduDaoJdbcImpl implements ArticleVenduDao{
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
-			System.out.println("TO DO : gestion erreurs - erreur select(String extrait)");
+			System.out.println("erreur select(String extrait)");
 		}
 		return lst;
 	}

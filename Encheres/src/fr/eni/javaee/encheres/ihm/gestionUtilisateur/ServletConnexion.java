@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.javaee.encheres.bll.BllException;
 import fr.eni.javaee.encheres.bll.utilisateur.UtilisateurManager;
-import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.messages.LectureMessage;
 
 

@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.eni.javaee.encheres.bo.ArticleVendu;
 import fr.eni.javaee.encheres.bo.Utilisateur;
 import fr.eni.javaee.encheres.dal.ConnectionProvider;
 

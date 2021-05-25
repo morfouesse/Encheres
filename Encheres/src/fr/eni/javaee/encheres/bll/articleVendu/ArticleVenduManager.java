@@ -187,7 +187,7 @@ public class ArticleVenduManager {
 			Date dateFinEncheres, int miseAPrix, int prixVente, Utilisateur unUtilisateur, Categorie uneCategorie) {
 
 		boolean verif = true;
-		Date dateActuelle = new Date();
+		//Date dateActuelle = new Date();
 
 		if(nomArticle == null) {
 			System.out.println("Erreur, nomArticle est null");

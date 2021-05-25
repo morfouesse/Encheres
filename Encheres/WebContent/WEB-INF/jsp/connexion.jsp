@@ -17,6 +17,8 @@
 
 <body>
 
+	<c:import url="navigation.jsp" />
+	
 	<div class="jumbotron">
 
 		<div class="text-center" id="titre">
@@ -25,7 +27,7 @@
 			</h1>
 		</div>
 	</div>
-	<c:import url="navigation.jsp" />
+	
 	<br>
 
 <div class="container">
